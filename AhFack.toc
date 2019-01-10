@@ -1,0 +1,13 @@
+## Title: AhFack
+## Notes: AhFack Rota.
+## Interface: 80100
+## LoadOnDemand: 0
+## DefaultState: enabled
+## Dependencies: dark_addon
+
+AHsubtlety.lua
+AHshadow.lua
+AHunholy.lua
+AHblood.lua
+AHfrost.lua
+AHassassination.lua

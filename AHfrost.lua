@@ -204,9 +204,9 @@ end
 if -buff(SB.Rime).exists and -spell(SB.HowlingBlast) == 0 then
   return cast(SB.HowlingBlast)
 end
-if talent (4,3) and -buff(SB.KillingSpree).up and -spell(SB.FrostScythe) == 0 then
+if talent (4,3) and player.buff(SB.KillingSpree).up and -spell(SB.FrostScythe) == 0 then
   return cast(SB.FrostScythe)
-  elseif -spell(SB.Obliterate) == 0 and -buff(SB.KillingSpree).up then
+  elseif -spell(SB.Obliterate) == 0 and player.buff(SB.KillingSpree).up then
     return cast(SB.Obliterate)
   end
 if -spell(SB.RemorselessWinter) == 0 then

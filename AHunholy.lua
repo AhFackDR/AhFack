@@ -78,7 +78,7 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
       print ("Starting Opener")
        return cast(SB.Outbreak)
       end
-    if -buff(SB.SuddenDoom).up and player.spell(SB.DeathCoil).cooldown == 0 then
+    if player.buff(SB.SuddenDoom).up and player.spell(SB.DeathCoil).cooldown == 0 then
       return cast(SB.DeathCoil)
     end
     if player.spell(SB.DarkTransformation).cooldown == 0 and y == 1 and pet.exists then 
@@ -104,7 +104,7 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
     if -spell(SB.FesteringStrike) == 0 and y == 1 and player.power.runes.count >= 1 then
       return cast(SB.FesteringStrike)
     end
-    if -buff(SB.UnholyFrenzy).down and y == 1 and -spell(SB.UnholyFrenzy) == 1 then
+    if player.buff(SB.UnholyFrenzy).down and y == 1 and -spell(SB.UnholyFrenzy) == 1 then
       y = 99
       print ("Opener Done")
       return 
@@ -136,7 +136,7 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
       return cast(SB.Outbreak, 'target')
     end
 
-   if -buff(SB.SuddenDoom).up and -spell(SB.DeathCoil) == 0 then
+   if player.buff(SB.SuddenDoom).up and -spell(SB.DeathCoil) == 0 then
     return cast(SB.DeathCoil, 'target')
   end
   if modifier.shift and -spell(SB.DeathAndDecay) == 0 and player.power.runes.count >= 1 then
@@ -197,10 +197,10 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
   ---------------
 
 
- if -buff(SB.DeathAndDecay).up and player.power.runes.count >= 1 and -spell(SB.ScourgeStrike) == 0 and target.debuff(SB.FesteringWounds).count >= 3 and inRange >= AoE and not talent(1,3) then
+ if player.buff(SB.DeathAndDecay).up and player.power.runes.count >= 1 and -spell(SB.ScourgeStrike) == 0 and target.debuff(SB.FesteringWounds).count >= 3 and inRange >= AoE and not talent(1,3) then
     return cast(SB.ScourgeStrike)
      else
-      if -buff(SB.DeathAndDecay).up and player.power.runes.count >= 1 and player.spell(SB.ClawingShadows).cooldown == 0 and target.debuff(SB.FesteringWounds).count >= 3 and inRange >= AoE and talent(1,3) then
+      if player.buff(SB.DeathAndDecay).up and player.power.runes.count >= 1 and player.spell(SB.ClawingShadows).cooldown == 0 and target.debuff(SB.FesteringWounds).count >= 3 and inRange >= AoE and talent(1,3) then
         return cast(SB.ClawingShadows)
       end
    end

@@ -170,10 +170,10 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
       return cast(SB.Eviscerate)
     end
     end
-    if -spell(SB.ShadowDance).fractionalcharges >= 1.75 and -buff(SB.ShadowDance).down and -spell(SB.ShadowDance) == 0 and inRange < AoE then
+    if -spell(SB.ShadowDance).fractionalcharges >= 1.75 and player.buff(SB.ShadowDance).down and -spell(SB.ShadowDance) == 0 and inRange < AoE then
       return cast(SB.ShadowDance)
     end
-    if -buff(SB.ShadowDance).up and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and inRange < AoE then 
+    if player.buff(SB.ShadowDance).up and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and inRange < AoE then 
       return cast(SB.ShadowStrike)
     end
     if -spell(SB.SymbolsOfDeath) == 0 and player.power.energy.actual <= 65 then 
@@ -209,7 +209,7 @@ end
 
 local function resting()
   
-  if -buff(SB.Stealth).down and -spell(SB.Stealth) == 0 and player.alive then
+  if player.buff(SB.Stealth).down and -spell(SB.Stealth) == 0 and player.alive then
   	y = 0
     return cast(SB.Stealth)
   end

@@ -43,17 +43,17 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
 --------------
 -- Defensives
 --------------
-    if castable(SB.IceboundFortitude) and player.health.percent < icefortperc and icefort == true then 
+    if -spell(SB.IceboundFortitude) == 0 and player.health.percent < icefortperc and icefort == true then 
       return cast(SB.IceboundFortitude)
     end
 
-    if castable(SB.AntiMagicShell) and player.health.percent < antimagicperc and antimagic == true then 
+    if -spell(SB.AntiMagicShell) == 0 and player.health.percent < antimagicperc and antimagic == true then 
       return cast(SB.AntiMagicShell)
     end
   if healthstone == true and player.health.percent < healthstonepercent and GetItemCount(5512) >= 1 and GetItemCooldown(5512) == 0 then
      macro('/use Healthstone')
   end
-    if castable(SB.DeathStrike) and player.health.percent < dsperc and ds == true and -buff(SB.DarkSuccor) then 
+    if -spell(SB.DeathStrike) == 0 and player.health.percent < dsperc and ds == true and -buff(SB.DarkSuccor) then 
       return cast(SB.DeathStrike)
     end
 
@@ -62,7 +62,7 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
 -- Utility
 ------------
 
-  if grip == true and modifier.alt and castable(SB.DeathGrip) then
+  if grip == true and modifier.alt and -spell(SB.DeathGrip) == 0 then
    return cast(SB.DeathGrip)
    end
 
@@ -78,10 +78,10 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
 -- Interrupts
 --------------
 
-    if castable(SB.MindFreeze, 'target') and target.interrupt(intpercent, false) then
+    if -spell(SB.MindFreeze, 'target') == 0 and target.interrupt(intpercent, false) then
       return cast(SB.MindFreeze, 'target')
     else
-         if castable(SB.Asphyxiate, 'target') and not castable(SB.MindFreeze, 'target') and talent(3,3) and not lastcast(SB.MindFreeze) and target.interrupt(intpercent, false) then
+         if -spell(SB.Asphyxiate, 'target') == 0 and not -spell(SB.MindFreeze, 'target') == 0 and talent(3,3) and not lastcast(SB.MindFreeze) and target.interrupt(intpercent, false) then
            return cast(SB.Asphyxiate, 'target')
           end
    end
@@ -96,13 +96,13 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
       return cast(SB.Outbreak, 'target')
     end
 
-   if player.buff(SB.SuddenDoom) and castable(SB.DeathCoil) then
+   if player.buff(SB.SuddenDoom) and -spell(SB.DeathCoil) == 0 then
     return cast(SB.DeathCoil, 'target')
   end
   if modifier.shift and player.spell(SB.DeathAndDecay).cooldown == 0 and player.power.runes.count >= 1 then
     return cast(SB.DeathAndDecay, 'ground')
     else
-            if modifier.shift and castable(SB.Defile) and talent(6,2) and player.power.runes.count >= 1 then
+            if modifier.shift and -spell(SB.Defile) == 0 and talent(6,2) and player.power.runes.count >= 1 then
               return cast(SB.Defile, 'ground')
             end
   end
@@ -130,46 +130,46 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin')
 
 if enemies.around(8) < 2 then
 
-if talent(1,2) and -buff(SB.IcyTalons).remains < 2 and castable(SB.FrostStrike) then 
+if talent(1,2) and -buff(SB.IcyTalons).remains < 2 and -spell(SB.FrostStrike) == 0 and player.power.runicpower.actual >= 25 then 
   return cast(SB.FrostStrike)
 end
-if castable(SB.RemorselessWinter) then
+if -spell(SB.RemorselessWinter) == 0 then
   return cast(SB.RemorselessWinter)
 end
-if talent(1,3) and -buff(SB.ColdHeart) and castable(SB.ChainsOfIce) and player.power.runes.actual < 1 then 
+if talent(1,3) and -buff(SB.ColdHeart).count >= 5 and -spell(SB.ChainsOfIce) == 0 and player.power.runes.actual < 1 then 
   return cast(ChainsOfIce)
 end
-if -buff(SB.RemorselessWinter).remains < 4 and talent(6,1) and castable(SB.FrostStrike) then
+if -buff(SB.RemorselessWinter).remains < 4 and talent(6,1) and -spell(SB.FrostStrike) == 0 then
   return cast(SB.FrostStrike)
 end
-if -buff(SB.Rime).exists and castable(SB.HowlingBlast) then
+if -buff(SB.Rime).exists and -spell(SB.HowlingBlast) == 0 then
   return cast(SB.HowlingBlast)
 end
-if talent(4,2) and castable(SB.Obliterate) then
+if talent(4,2) and -spell(SB.Obliterate) == 0 then
   return cast(SB.Obliterate)
 end
-if cds == true and castable(SB.EmpowerRuneWeapon) then
+if cds == true and -spell(SB.EmpowerRuneWeapon) == 0 then
   return cast(SB.EmpowerRuneWeapon)
 end
-if cds == true and castable(SB.PillarOfFrost) then
+if cds == true and -spell(SB.PillarOfFrost) == 0 then
   return cast(SB.PillarOfFrost)
 end
-if player.power.runicpower.actual >= 75 and castable(SB.BreathOfSindragosa) then
+if player.power.runicpower.actual >= 75 and -spell(SB.BreathOfSindragosa) == 0 then
   return cast(SB.BreathOfSindragosa)
 end
-if player.power.runicpower.actual >= 73 and castable(SB.FrostStrike) and player.spell(SB.BreathOfSindragosa).cooldown == 1 then
+if player.power.runicpower.actual >= 73 and -spell(SB.FrostStrike) == 0 and player.spell(SB.BreathOfSindragosa).cooldown == 1 then
   return cast(SB.FrostStrike)
 end
-if -buff(SB.KillingSpree).exists and talent(4,3) and castable(SB.FrostScythe) then 
+if -buff(SB.KillingSpree).exists and talent(4,3) and -spell(SB.FrostScythe) == 0 then 
   return cast(SB.FrostScythe)
-  elseif -buff(SB.KillingSpree).exists and castable(SB.Obliterate) then
+  elseif -buff(SB.KillingSpree).exists and -spell(SB.Obliterate) == 0 then
     return cast(SB.Obliterate)
   end
 end
-if player.power.runicpower.actual < 73 and castable(SB.Obliterate) then
+if player.power.runicpower.actual < 73 and -spell(SB.Obliterate) == 0 then
   return cast(SB.Obliterate)
 end
-if player.power.runicpower.actual >= 25 and castable(SB.FrostStrike) then
+if player.power.runicpower.actual >= 25 and -spell(SB.FrostStrike) == 0 then
   return cast(SB.FrostStrike)
 end
 end
@@ -181,41 +181,41 @@ end
 ---------------
 if enemies.around(8) >= 2 then
 
-if -buff(SB.IcyTalons).remains < 2 and talent(6,2) and talent(1,2) and castable(SB.GlacialAdvance) then
+if -buff(SB.IcyTalons).remains < 2 and talent(6,2) and talent(1,2) and -spell(SB.GlacialAdvance) == 0 then
   return cast(SB.GlacialAdvance)
-  elseif -buff(SB.IcyTalons).remains < 2 and talent(1,2) and player.power.runicpower.actual >= 25 and castable(SB.FrostStrike) then
+  elseif -buff(SB.IcyTalons).remains < 2 and talent(1,2) and player.power.runicpower.actual >= 25 and -spell(SB.FrostStrike) == 0 then
     return cast(SB.FrostStrike)
   end
 end
-if talent(6,1) and castable(SB.RemorselessWinter) then
+if talent(6,1) and -spell(SB.RemorselessWinter) == 0 then
   return cast(SB.RemorselessWinter)
 end
-if talent(7,3) and castable(SB.BreathOfSindragosa) and player.power.runicpower.actual >= 75 then
+if talent(7,3) and -spell(SB.BreathOfSindragosa) == 0 and player.power.runicpower.actual >= 75 then
   return cast(SB.BreathOfSindragosa)
 end
-if player.power.runicpower.actual >= 73 and talent(6,2) and castable(SB.GlacialAdvance) then 
+if player.power.runicpower.actual >= 73 and talent(6,2) and -spell(SB.GlacialAdvance) == 0 then 
   return cast(SB.GlacialAdvance)
-  elseif -buff(SB.RemorselessWinter).remains < 4 and talent(6,2) and castable(SB.FrostStrike) then
+  elseif -buff(SB.RemorselessWinter).remains < 4 and talent(6,2) and -spell(SB.FrostStrike) == 0 then
     return cast(SB.FrostStrike)
 end
-if talent(6,3) and castable(SB.FrostwyrmsFury) then
+if talent(6,3) and -spell(SB.FrostwyrmsFury) == 0 then
   return cast(SB.FrostwyrmsFury)
 end
-if -buff(SB.Rime).exists and castable(SB.HowlingBlast) then
+if -buff(SB.Rime).exists and -spell(SB.HowlingBlast) == 0 then
   return cast(SB.HowlingBlast)
 end
-if talent (4,3) and -buff(SB.KillingSpree).exists and castable(SB.FrostScythe) then
+if talent (4,3) and -buff(SB.KillingSpree).up and -spell(SB.FrostScythe) == 0 then
   return cast(SB.FrostScythe)
-  elseif castable(SB.Obliterate) then
+  elseif -spell(SB.Obliterate) == 0 and -buff(SB.KillingSpree).up then
     return cast(SB.Obliterate)
   end
-if castable(SB.RemorselessWinter) then
+if -spell(SB.RemorselessWinter) == 0 then
   return cast(SB.RemorselessWinter)
 end
-if castable(SB.Obliterate) then
+if -spell(SB.Obliterate) == 0 and player.power.runes.actual >= 2 then
   return cast(SB.Obliterate)
 end
-if talent(6,2) and castable(SB.GlacialAdvance) then
+if talent(6,2) and -spell(SB.GlacialAdvance) == 0 then
   return cast(SB.GlacialAdvance)
   elseif castable(SB.FrostStrike) then
     return cast(SB.FrostStrike)

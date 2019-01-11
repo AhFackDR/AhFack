@@ -54,16 +54,16 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 --------------
 -- Defensives
 --------------
-  if vanish == true and castable(SB.Vanish) and player.health.percent < vanishpercent and vanish == true then
+  if vanish == true and -spell(SB.Vanish) == 0 and player.health.percent < vanishpercent and vanish == true then
       return cast(SB.Vanish)
   end
-  if shadow == true and castable(SB.CloakOfShadows) and player.health.percent < shadowpercent and shadow == true then 
+  if shadow == true and -spell(SB.CloakOfShadows) == 0 and player.health.percent < shadowpercent and shadow == true then 
       return cast(SB.CloakOfShadows)
   end
-  if vial == true and castable(SB.CrimsonVial) and player.health.percent < vialpercent and vial == true and player.power.energy.actual >= 30 then 
+  if vial == true and -spell(SB.CrimsonVial) == 0 and player.health.percent < vialpercent and vial == true and player.power.energy.actual >= 30 then 
       return cast(SB.CrimsonVial)
   end
-  if feint == true and castable(SB.Feint) and player.health.percent < feintpercent and feint == true and player.power.energy.actual >= 35 then 
+  if feint == true and -spell(SB.Feint) == 0 and player.health.percent < feintpercent and feint == true and player.power.energy.actual >= 35 then 
       return cast(SB.Feint)
   end
   if healthstone == true and player.health.percent < healthstonepercent and GetItemCount(5512) >= 1 and GetItemCooldown(5512) == 0 then
@@ -86,10 +86,10 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
    if target.alive and target.enemy and player.alive and not player.channeling() and target.distance < 8 then
     auto_attack()
 
-    if castable(SB.Kick, 'target') and target.interrupt(intpercent, false) then
+    if -spell(SB.Kick, 'target') == 0 and target.interrupt(intpercent, false) then
       return cast(SB.Kick, 'target')
       else
-            if castable(SB.Blind, 'target') and not castable(SB.Kick, 'target') and not lastcast(SB.Kick) and target.interrupt(intpercent, false) then
+            if -spell(SB.Blind, 'target') == 0 and not -spell(SB.Kick, 'target') == 0 and not lastcast(SB.Kick) and target.interrupt(intpercent, false) then
               return cast(SB.Blind, 'target')
             end
     end
@@ -98,7 +98,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -- Opener
 -----------
   if toggle('opener', false) and y ~= 99 then
-    if target.castable(SB.Backstab) and y == 0 and player.power.energy.actual >= 28 then
+    if -spell(SB.Backstab) == 0 and y == 0 and player.power.energy.actual >= 28 then
       y = y + 1
       print ("Starting Opener")
        return cast(SB.Backstab)
@@ -109,32 +109,32 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
     if talent(3,3) and player.spell(SB.MarkedforDeath).cooldown == 0 and y == 1 and player.power.combopoints.actual <= 2 then
       return cast(SB.MarkedforDeath)
     end
-    if target.castable(SB.Nightblade) and y == 1 and (not target.debuff(SB.Nightblade).exists or target.debuff(SB.Nightblade).remains < 4) then
+    if -spell(SB.Nightblade) == 0 and y == 1 and (not target.debuff(SB.Nightblade).exists or target.debuff(SB.Nightblade).remains < 4) then
       return cast(SB.Nightblade)
     end
-   if castable(SB.ShadowBlades) and y == 1 then
+   if -spell(SB.ShadowBlades) == 0 and y == 1 then
      return cast(SB.ShadowBlades)
     end
-    if talent(7,2) and player.power.energy.actual >= 30 and player.power.combopoints.actual >= 5 and y == 1 and target.castable(SB.SecretTechnique) then
+    if talent(7,2) and player.power.energy.actual >= 30 and player.power.combopoints.actual >= 5 and y == 1 and -spell(SB.SecretTechnique) == 0 then
      return cast(SB.SecretTechnique)
     else
-      if player.power.energy.actual >= 35 and player.power.combopoints.actual >= 4 and target.castable(SB.Eviscerate) and y == 1 then
+      if player.power.energy.actual >= 35 and player.power.combopoints.actual >= 4 and -spell(SB.Eviscerate) == 0 and y == 1 then
         return cast(SB.Eviscerate)
       end
     end
-    if talent(7,2) and player.power.energy.actual >= 35 and player.power.combopoints.actual >= 4 and spell(SB.SecretTechnique).cooldown == 1 then
+    if talent(7,2) and player.power.energy.actual >= 35 and player.power.combopoints.actual >= 4 and -spell(SB.SecretTechnique) == 1 then
     	return cast(SB.Eviscerate)
     end
     if spell(SB.ShadowDance).fractionalcharges >= 1.75 and not -buff(SB.ShadowDance) and y == 1 then
       return cast(SB.ShadowDance)
     end
-    if -player.buff(SB.ShadowDance) and player.spell(SB.ShadowStrike).cooldown == 0 and player.power.energy.actual >= 40 and y == 1 then 
+    if -player.buff(SB.ShadowDance) and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and y == 1 then 
      return cast(SB.ShadowStrike)
     end
-    if target.castable(SB.Backstab) and player.power.energy.actual >= 35 and y == 1 then
+    if -spell(SB.Backstab) == 0 and player.power.energy.actual >= 35 and y == 1 then
       return cast(SB.Backstab)
     end
-    if not player.buff(SB.ShadowBlades).exists and y == 1 and player.spell(SB.ShadowBlades).cooldown > 0 then
+    if player.buff(SB.ShadowBlades).down and y == 1 and spell(SB.ShadowBlades) == 1 then
       y = 99
       print ("Opener Done")
       return 
@@ -150,43 +150,43 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -- Standard Rotation
 ---------------------
 
-    if -player.buff(SB.Stealth) and castable(SB.ShadowStrike) and player.power.energy.actual >= 40 then 
+    if -buff(SB.Stealth) and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 then 
       return cast(SB.ShadowStrike)
     end
-    if not -target.debuff(SB.Nightblade) and player.power.combopoints.actual >= 3 and player.power.energy.actual >= 20 then
+    if not target.debuff(SB.Nightblade) and player.power.combopoints.actual >= 3 and player.power.energy.actual >= 20 and -spell(SB.Nightblade) == 0 then
      return cast(SB.Nightblade, 'target')
     end
-       if talent(7,2) and talent(3,2) and castable(SB.SecretTechnique) and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 6 then
+       if talent(7,2) and talent(3,2) and -spell(SB.SecretTechnique) == 0 and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 6 then
         return cast(SB.SecretTechnique)
        else
-      if talent(7,2) and talent(3,1) or talent (3,3) and castable(SB.SecretTechnique) and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 4 then
+      if talent(7,2) and talent(3,1) or talent (3,3) and -spell(SB.SecretTechnique) == 0 and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 4 and not talent(3,2) then
       return cast(SB.SecretTechnique)
     end
   end
-    if talent(3,2) and castable(SB.Eviscerate) and player.power.energy.actual >= 35 and player.power.combopoints.actual >= 5 then
+    if talent(3,2) and -spell(SB.Eviscerate) == 0 and player.power.energy.actual >= 35 and player.power.combopoints.actual >= 5 then
       return cast(SB.Eviscerate)
     else 
-     if talent(3,1) or talent(3,3) and player.power.combopoints.actual >= 4 and castable(SB.Eviscerate) and player.power.energy.actual >= 35 then
+     if talent(3,1) or talent(3,3) and player.power.combopoints.actual >= 4 and -spell(SB.Eviscerate) == 0 and player.power.energy.actual >= 35 and not talent(3,2) then
       return cast(SB.Eviscerate)
     end
     end
-    if spell(SB.ShadowDance).fractionalcharges >= 1.75 and not -buff(SB.ShadowDance) and castable(SB.ShadowDance) and inRange < AoE then
+    if -spell(SB.ShadowDance).fractionalcharges >= 1.75 and -buff(SB.ShadowDance).down and -spell(SB.ShadowDance) == 0 and inRange < AoE then
       return cast(SB.ShadowDance)
     end
-    if -player.buff(SB.ShadowDance) and castable(SB.ShadowStrike) and player.power.energy.actual >= 40 and inRange < AoE then 
+    if -buff(SB.ShadowDance).up and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and inRange < AoE then 
       return cast(SB.ShadowStrike)
     end
-    if castable(SB.SymbolsOfDeath) and player.power.energy.actual <= 65 then 
+    if -spell(SB.SymbolsOfDeath) == 0 and player.power.energy.actual <= 65 then 
       return cast(SB.SymbolsOfDeath)
     end
-    if  castable(SB.MarkedforDeath) and player.power.combopoints.actual <=  2 and talent(3,3) then
+    if  -spell(SB.MarkedforDeath) == 0 and player.power.combopoints.actual <=  2 and talent(3,3) then
       return cast(SB.MarkedforDeath)
     end
-    if castable(SB.ShurikenStorm) and player.power.energy.actual >= 28 and inRange >= 2 then
+    if -spell(SB.ShurikenStorm) == 0 and player.power.energy.actual >= 28 and inRange >= 2 then
       return cast(SB.ShurikenStorm, 'target')
     end
 
-    if castable(SB.Backstab) and player.power.energy.actual >= 28 and inRange < 2 then
+    if -spell(SB.Backstab) == 0 and player.power.energy.actual >= 28 and inRange < 2 then
       return cast(SB.Backstab, 'target')
     end
    
@@ -194,7 +194,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -- Cooldowns
 -------------
 
-   if cds == true and castable (SB.ShadowBlades) then
+   if cds == true and -spell(SB.ShadowBlades) == 0 then
       return cast(SB.ShadowBlades, 'target')
     end
 
@@ -209,7 +209,7 @@ end
 
 local function resting()
   
-  if not -player.buff(SB.Stealth) and castable(SB.Stealth) and player.alive then
+  if -buff(SB.Stealth).down and -spell(SB.Stealth) == 0 and player.alive then
   	y = 0
     return cast(SB.Stealth)
   end

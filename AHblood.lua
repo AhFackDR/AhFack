@@ -50,16 +50,16 @@ local taunt = dark_addon.settings.fetch('dr_example_taunt.check')
 --------------
 -- Defensives
 --------------
-  if icefort == true and castable(SB.IceboundFortitude) and player.health.percent < icepercent then
+  if icefort == true and -spell(SB.IceboundFortitude) == 0 and player.health.percent < icepercent then
       return cast(SB.IceboundFortitude)
   end
-  if antimagic == true and castable(SB.AntiMagicShell) and player.health.percent < antimagicpercent then 
+  if antimagic == true and -spell(SB.AntiMagicShell) == 0 and player.health.percent < antimagicpercent then 
       return cast(SB.AntiMagicShell)
   end
   if healthstone == true and player.health.percent < healthstonepercent and GetItemCount(5512) >= 1 and GetItemCooldown(5512) == 0 then
      macro('/use Healthstone')
   end
-  if vamp == true and player.health.percent < vamppercent and castable(SB.VampiricBlood) then
+  if vamp == true and player.health.percent < vamppercent and -spell(SB.VampiricBlood) == 0 then
   	return cast(SB.VampiricBlood)
   end
 
@@ -67,16 +67,16 @@ local taunt = dark_addon.settings.fetch('dr_example_taunt.check')
 ------------
 -- Utility
 ------------
-	if grip == true and castable(SB.DeathGrip) and modifier.control then
+	if grip == true and -spell(SB.DeathGrip) == 0 and modifier.control then
 		return cast(SB.DeathGrip)
 	end
-	if massgrip == true and castable(SB.GorefiendsGrasp) and modifier.alt then
+	if massgrip == true and -spell(SB.GorefiendsGrasp) == 0 and modifier.alt then
 		return cast(SB.GorefiendsGrasp)
 	end
-	if dance == true and castable(SB.DancingRuneWeapon) then
+	if dance == true and -spell(SB.DancingRuneWeapon) == 0 then
 		return cast(SB.DancingRuneWeapon)
 	end
-	if taunt == true and modifier.shift and castable(SB.DarkCommand) then
+	if taunt == true and modifier.shift and -spell(SB.DarkCommand) == 0 then
 		return cast(SB.DarkCommand)
 	end
 
@@ -85,10 +85,10 @@ local taunt = dark_addon.settings.fetch('dr_example_taunt.check')
 -- Interrupts
 --------------
 
-    if castable(SB.MindFreeze, 'target') and target.interrupt(intpercent, false) then
+    if -spell(SB.MindFreeze, 'target') == 0 and target.interrupt(intpercent, false) then
       return cast(SB.MindFreeze, 'target')
     else
-         if castable(SB.Asphyxiate, 'target') and not castable(SB.MindFreeze, 'target') and talent(3,3) and not lastcast(SB.MindFreeze) and target.interrupt(intpercent, false) then
+         if -spell(SB.Asphyxiate, 'target') == 0 and not -spell(SB.MindFreeze, 'target') == 0 and talent(3,3) and not lastcast(SB.MindFreeze) and target.interrupt(intpercent, false) then
            return cast(SB.Asphyxiate, 'target')
           end
    end

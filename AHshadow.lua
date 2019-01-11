@@ -27,10 +27,10 @@ local autoleap = dark_addon.settings.fetch('dr_example_leap')
 
 -- Defensives
 
-  if vampiricembrace == true and castable(SB.VampiricEmbrace) and player.health.percent < vamppercent and vampiricembrace == true then
+  if vampiricembrace == true and -spell(SB.VampiricEmbrace) == 0 and player.health.percent < vamppercent and vampiricembrace == true then
       return cast(SB.VampiricEmbrace)
   end
-  if dispersion == true and castable(SB.Dispersion) and player.health.percent < disppercent and dispersion == true then 
+  if dispersion == true and -spell(SB.Dispersion) == 0 and player.health.percent < disppercent and dispersion == true then 
       return cast(SB.Dispersion)
   end
 
@@ -41,7 +41,7 @@ local autoleap = dark_addon.settings.fetch('dr_example_leap')
 
 -- Utility
 
-if fade == true and castable(SB.Fade) and player.health < fadepercent then
+if fade == true and -spell(SB.Fade) == 0 and player.health < fadepercent then
   return cast(SB.Fade)
 end
 if modifier.alt and -spell(SB.MassDispel) == 0 and massdispel == true then
@@ -54,16 +54,16 @@ end
 
 -- Rotation
 
-   if target.alive and target.enemy and player.alive and not player.channeling then
+   if target.alive and target.enemy and player.alive and not player.channeling() then
 
-    if castable(SB.Silence, 'target') and target.interrupt(intpercent, false) then
+    if -spell(SB.Silence, 'target') == 0 and target.interrupt(intpercent, false) then
       return cast(SB.Silence, 'target')
       else
-            if talent(4,3) and player.spell(SB.PsychicHorror).cooldown == 0 and not lastcast(SB.Silence) and target.interrupt(intpercent, false) then
+            if talent(4,3) and player.spell(SB.PsychicHorror).cooldown == 0 and not lastcast(SB.Silence) and target.interrupt(intpercent, false) and not -spell(SB.Silence) == 0 then
               return cast(SB.PsychicHorror, 'target')
             end
    end
-       if multidot == true and -target.debuff(SB.ShadowWordPain) and modifier.shift then
+       if multidot == true and -target.debuff(SB.ShadowWordPain) and modifier.shift and -spell(SB.ShadowWordPain) == 0 then
       return RunMacro('Pain')
     end
     if -player.buff(SB.VoidForm) and player.spell(SB.VoidBolt).cooldown == 0 then 
@@ -73,16 +73,16 @@ end
     return cast(SB.VoidEruption, 'target')
   end
 
-    if not -target.debuff(SB.VampiricTouch) then
+    if not -target.debuff(SB.VampiricTouch) and -spell(SB.VampiricTouch) == 0 then
       return cast(SB.VampiricTouch, 'target')
    end
        if talent(3,3) and player.spell(SB.DarkVoid).cooldown == 0 and multit == true then
       return cast(SB.DarkVoid)
     end
-    if not -target.debuff(SB.ShadowWordPain) then
+    if not -target.debuff(SB.ShadowWordPain) and -spell(SB.ShadowWordPain) == 0 then
       return cast(SB.ShadowWordPain, 'target')
    end
-    if cds == true and talent(6,2) and castable(SB.MindbenderShadow) then
+    if cds == true and talent(6,2) and -spell(SB.MindbenderShadow) == 0 then
       return cast(SB.MindbenderShadow, 'target')
         else
           if player.spell(SB.ShadowFiend).cooldown == 0 then
@@ -111,7 +111,7 @@ end
 
 -- Fillers
 
-    if multit == true and castable (SB.MindSear) then
+    if multit == true and -spell(SB.MindSear) == 0 then
       return cast(SB.MindSear, 'target')
     end
 
@@ -126,7 +126,7 @@ local function resting()
 if not -player.buff(SB.ShadowForm) and player.spell(SB.ShadowForm).cooldown == 0 then
    return cast(SB.ShadowForm)
  end
-if not -player.buff(SB.PowerWordFortitude) and castable(SB.PowerWordFortitude, 'player')  then
+if not -player.buff(SB.PowerWordFortitude) and -spell(SB.PowerWordFortitude, 'player') == 0 then
    return cast(SB.PowerWordFortitude, 'player')
  end
 

@@ -64,16 +64,16 @@ local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
 -- Defensives
 -------------
 
-  if vanish == true and castable(SB.Vanish) and player.health.percent < vanishpercent and vanish == true then
+  if vanish == true and -spell(SB.Vanish) == 0 and player.health.percent < vanishpercent and vanish == true then
       return cast(SB.Vanish)
   end
-  if shadow == true and castable(SB.CloakOfShadows) and player.health.percent < shadowpercent and shadow == true then 
+  if shadow == true and -spell(SB.CloakOfShadows) == 0 and player.health.percent < shadowpercent and shadow == true then 
       return cast(SB.CloakOfShadows)
   end
-  if vial == true and castable(SB.CrimsonVial) and player.health.percent < vialpercent and vial == true and player.power.energy.actual >= 30 then 
+  if vial == true and -spell(SB.CrimsonVial) == 0 and player.health.percent < vialpercent and vial == true and player.power.energy.actual >= 30 then 
       return cast(SB.CrimsonVial)
   end
-  if feint == true and castable(SB.Feint) and player.health.percent < feintpercent and feint == true and player.power.energy.actual >= 35 then 
+  if feint == true and -spell(SB.Feint) == 0 and player.health.percent < feintpercent and feint == true and player.power.energy.actual >= 35 then 
       return cast(SB.Feint)
   end
   if healthstone == true and player.health.percent < healthstonepercent and GetItemCount(5512) >= 1 and GetItemCooldown(5512) == 0 then
@@ -92,14 +92,14 @@ local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
 --print (x)
 --print (y) 
 
-    if castable(SB.Kick, 'target') and target.interrupt(intpercent, false) then
+    if -spell(SB.Kick, 'target') == 0 and target.interrupt(intpercent, false) then
       return cast(SB.Kick, 'target')
       else
-            if castable(SB.Blind, 'target') and not castable(SB.Kick, 'target') and not lastcast(SB.Kick) and target.interrupt(intpercent, false) then
+            if -spell(SB.Blind, 'target') == 0 and not -spell(SB.Kick, 'target') == 0 and not lastcast(SB.Kick) and target.interrupt(intpercent, false) then
               return cast(SB.Blind, 'target')
             end
     end
-    if castable(SB.KidneyShot) and modifier.control and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
+    if -spell(SB.KidneyShot) == 0 and modifier.control and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
     	return cast(SB.KidneyShot)
     end
 
@@ -110,7 +110,7 @@ local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
 -- Cooldowns
 -------------
 
-   if cds == true and castable (SB.Vendetta) then
+   if cds == true and -spell(SB.Vendetta) == 0 then
       return cast(SB.Vendetta, 'target')
     end
 
@@ -118,7 +118,7 @@ local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
 -- Utility
 -----------
 
-  if tott == true and castable(SB.TricksOfTheTrade) then
+  if tott == true and -spell(SB.TricksOfTheTrade) == 0 then
     return RunMacro("Aggro")
   end
 
@@ -159,17 +159,17 @@ local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
 -----------------------
  -- Smart Exsanguinate
  ----------------------
-if talent (6,3) and v ~= 99 and castable(SB.Exsanguinate) and exsanguinate == true then
+if talent (6,3) and v ~= 99 and -spell(SB.Exsanguinate) == 0 and exsanguinate == true then
 
-	if castable(SB.Exsanguinate) and castable(SB.Rupture) and player.power.combopoints.actual >= 4 and target.debuff(SB.Rupture).remains < 6 and v == 0 then
+	if -spell(SB.Exsanguinate) == 0 and -spell(SB.Rupture) == 0 and player.power.combopoints.actual >= 4 and target.debuff(SB.Rupture).remains < 6 and player.power.energy.actual >= 25 and v == 0 then
 		v = v + 1
 		print ("EXSANGUINATE START")
 		return cast(SB.Rupture)
 	end
-	if castable(SB.Exsanguinate) and castable(SB.Garrote) and target.debuff(SB.Garrote).remains < 5.4 and v == 1 then
+	if -spell(SB.Exsanguinate) == 0 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains < 5.4 and player.power.energy.actual >= 45 and v == 1 then
 		return cast(SB.Garrote)
 	end
-	if castable(SB.Exsanguinate) and target.debuff(SB.Garrote).remains > 15 and target.debuff(SB.Rupture).remains > 25 and v == 1 then
+	if -spell(SB.Exsanguinate) == 0 and target.debuff(SB.Garrote).remains > 15 and target.debuff(SB.Rupture).remains > 25 and v == 1 then
 		v = 99
 		print ("EXSANGUINATE DONE")
 		return cast(Exsanguinate)
@@ -189,36 +189,36 @@ if talent(6,3) and exsanguinate == true then
    	v = 0
      return cast(SB.Rupture, 'target')
     end
-   if not target.debuff(SB.Garrote).exists and player.power.combopoints.actual <= 4 and player.power.energy.actual >= 45 and not lastcast(SB.Exsanguinate) then
+   if not target.debuff(SB.Garrote).exists and -spell(SB.Garrote) == 0 and player.power.combopoints.actual <= 4 and player.power.energy.actual >= 45 and not lastcast(SB.Exsanguinate) then
    	v = 0
    	return cast(SB.Garrote)
    end
-   if target.debuff(SB.Rupture).remains < 2 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 25 and v == 0 then
+   if target.debuff(SB.Rupture).remains < 2 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 25 and v == 0 and -spell(SB.Rupture) == 0 then
    	return cast(SB.Rupture)
    end
-   if target.debuff(SB.Garrote).remains < 5.4 and player.power.energy.actual >= 45 and v == 0 then
+   if target.debuff(SB.Garrote).remains < 5.4 and player.power.energy.actual >= 45 and v == 0 and -spell(SB.Garrote) == 0 then
    	return cast(SB.Garrote)
    end
 
-   if not -buff(SB.Subterfuge) and castable(SB.Vanish) and player.power.energy.actual >= 45 and castable(SB.Garrote) and target.debuff(SB.Garrote).remains < 5.4 then 
+   if not -buff(SB.Subterfuge) and -spell(SB.Vanish) == 0 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains < 5.4 then 
    	return cast(SB.Vanish)
    end
-   if -buff(SB.Subterfuge) and player.power.energy.actual >= 45 and castable(SB.Garrote) and target.debuff(SB.Garrote).remains < 5.4 then
+   if -buff(SB.Subterfuge) and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains < 5.4 then
    	return cast(SB.Garrote)
    end
-   if target.debuff(SB.Rupture).remains >= 20 and target.debuff(SB.Garrote).remains >= 6 and castable(SB.Exsanguinate) and player.power.energy.actual >= 25 then
-   	return cast(SB.Exsanguinate)
-   end
-   if talent(7,3) and player.power.energy.actual >= 35 and not -target.debuff(SB.CrimsonTempest) and player.power.combopoints >= 4 and castable(SB.CrimsonTempest) then
+--   if target.debuff(SB.Rupture).remains >= 20 and target.debuff(SB.Garrote).remains >= 10 and -spell(SB.Exsanguinate) == 0 and player.power.energy.actual >= 25 then
+--   	return cast(SB.Exsanguinate)
+--   end
+   if talent(7,3) and player.power.energy.actual >= 35 and not -target.debuff(SB.CrimsonTempest) and player.power.combopoints >= 4 and -spell(SB.CrimsonTempest) == 0 then
    	return cast(SB.CrimsonTempest)
    end
-   if castable(SB.Envenom) and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 35 then
+   if -spell(SB.Envenom) == 0 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 35 then
    	return cast(SB.Envenom) 
    end
-   if castable(SB.FanOfKnives) and player.power.energy.actual >= 35 and inRange >= 4 then
+   if -spell(SB.FanOfKnives) == 0 and player.power.energy.actual >= 35 and inRange >= 4 then
    	return cast(SB.FanOfKnives)
    end
-   if castable(SB.Mutilate) and player.power.energy.actual >= 50 and inRange <= 3 then
+   if -spell(SB.Mutilate) == 0 and player.power.energy.actual >= 50 and inRange <= 3 then
    	return cast(SB.Mutilate)
    end
 
@@ -238,34 +238,34 @@ if talent(6,2) then
    if target.debuff(SB.Rupture).down and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 25 then
      return cast(SB.Rupture, 'target')
     end
-   if target.debuff(SB.Garrote).down and player.power.combopoints.actual <= 4 and player.power.energy.actual >= 45 and castable(SB.Garrote) then
+   if target.debuff(SB.Garrote).down and player.power.combopoints.actual <= 4 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 then
    	return cast(SB.Garrote)
    end
-   if player.buff(SB.Subterfuge).down and castable(SB.Vanish) and player.power.energy.actual >= 45 and castable(SB.Garrote) and target.debuff(SB.Garrote).remains <= 5.4 then 
+   if player.buff(SB.Subterfuge).down and -spell(SB.Vanish) == 0 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains <= 5.4 then 
    	return cast(SB.Vanish)
    end
-   if player.buff(SB.Subterfuge).up and player.power.energy.actual >= 45 and castable(SB.Garrote) and target.debuff(SB.Garrote).remains <= 5 then
+   if player.buff(SB.Subterfuge).up and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains <= 5 then
    	return cast(SB.Garrote)
    end
      if target.debuff(SB.Rupture).remains < 2 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 25 then
    	return cast(SB.Rupture)
    end
-   if target.debuff(SB.Garrote).remains < 5 and player.power.energy.actual >= 45 and castable(SB.Garrote) then
+   if target.debuff(SB.Garrote).remains < 5 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 then
    	return cast(SB.Garrote)
    end
-   if castable(SB.ToxicBlade) and player.power.energy.actual >= 20 then
+   if -spell(SB.ToxicBlade) == 0 and player.power.energy.actual >= 20 then
    	return cast(SB.ToxicBlade)
    end
-   if talent(7,3) and player.power.energy.actual >= 35 and target.debuff(SB.CrimsonTempest).down and player.power.combopoints >= 4 and castable(SB.CrimsonTempest) then
+   if talent(7,3) and player.power.energy.actual >= 35 and target.debuff(SB.CrimsonTempest).down and player.power.combopoints >= 4 and -spell(SB.CrimsonTempest) == 0 then
    	return cast(SB.CrimsonTempest)
    end
-   if castable(SB.Envenom) and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 35 then
+   if -spell(SB.Envenom) == 0 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 35 then
    	return cast(SB.Envenom) 
    end
-   if castable(SB.FanOfKnives) and player.power.energy.actual >= 35 and inRange > AoE then
+   if -spell(SB.FanOfKnives) == 0 and player.power.energy.actual >= 35 and inRange > AoE then
    	return cast(SB.FanOfKnives)
    end
-   if castable(SB.Mutilate) and player.power.energy.actual >= 50 and inRange <= AoE then
+   if -spell(SB.Mutilate) == 0 and player.power.energy.actual >= 50 and inRange <= AoE then
    	return cast(SB.Mutilate)
    end
 
@@ -282,7 +282,7 @@ local function resting()
 --print (x)
 --print (y)
  
- 	if lastcast(SB.Vanish) and castable(SB.Garrote) then
+ 	if lastcast(SB.Vanish) and -spell(SB.Garrote) == 0 and player.power.energy.actual >= 45 then
  		return cast(SB.Garrote, 'target')
  	end
 
@@ -292,10 +292,10 @@ local function resting()
     return cast(SB.Stealth)
   end
 
-  if player.buff(SB.DeadlyPoison).down and castable(SB.DeadlyPoison) and player.alive then
+  if player.buff(SB.DeadlyPoison).down and -spell(SB.DeadlyPoison) == 0 and player.alive then
       return cast(SB.DeadlyPoison)
   end
-  if player.buff(SB.CripplingPoison).down and castable(SB.CripplingPoison) and player.alive then
+  if player.buff(SB.CripplingPoison).down and -spell(SB.CripplingPoison) == 0 and player.alive then
       return cast(SB.CripplingPoison)
   end
 

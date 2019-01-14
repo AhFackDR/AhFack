@@ -1,7 +1,7 @@
--- Subtlety Rogue for 8.1 by AhFack - 12/2018
+-- Outlaw Rogue for 8.1 by AhFack - 2019
 -- Talents: Everything is Usable. 
--- Mythic+ I'd recommend following: 2-3-2-2-2-3-2
--- Raiding I'd recommend following: 2-3-3-2-2-3-1
+-- Mythic+ I'd recommend following: 
+-- Raiding I'd recommend following: 
 -- Holding 
 -- Holding 
 
@@ -36,13 +36,13 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 
 
 -- Experimental
-    local AoE = 3
+    local AoE = 2
   
 
     local inRange = 0
 
       for i = 1, 40 do
-            if UnitExists('nameplate' .. i) and IsSpellInRange('Backstab', 'nameplate' .. i) == 1 and UnitAffectingCombat('nameplate' .. i) then
+            if UnitExists('nameplate' .. i) and IsSpellInRange('Sinister Strike', 'nameplate' .. i) == 1 and UnitAffectingCombat('nameplate' .. i) then
                 inRange = inRange + 1
             end
         end
@@ -99,8 +99,8 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -- Cooldowns
 -------------
 
-   if cds == true and -spell(SB.ShadowBlades) == 0 then
-      return cast(SB.ShadowBlades, 'target')
+   if cds == true and -spell(SB.AdrenalineRush) == 0 and player.power.energy.actual < 80 then
+      return cast(SB.AdrenalineRush)
     end
 
 
@@ -117,37 +117,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
       print ("Starting Opener")
        return cast(SB.Backstab)
       end
-    if player.spell(SB.SymbolsOfDeath).cooldown == 0 and y == 1 and player.power.energy.actual <= 65 then 
-      return cast(SB.SymbolsOfDeath)
-   end
-    if talent(3,3) and player.spell(SB.MarkedforDeath).cooldown == 0 and y == 1 and player.power.combopoints.actual <= 2 then
-      return cast(SB.MarkedforDeath)
-    end
-    if -spell(SB.Nightblade) == 0 and y == 1 and (not target.debuff(SB.Nightblade).exists or target.debuff(SB.Nightblade).remains < 4) then
-      return cast(SB.Nightblade)
-    end
-   if -spell(SB.ShadowBlades) == 0 and y == 1 then
-     return cast(SB.ShadowBlades)
-    end
-    if talent(7,2) and player.power.energy.actual >= 30 and player.power.combopoints.actual >= 5 and y == 1 and -spell(SB.SecretTechnique) == 0 then
-     return cast(SB.SecretTechnique)
-    else
-      if player.power.energy.actual >= 35 and player.power.combopoints.actual >= 4 and -spell(SB.Eviscerate) == 0 and y == 1 then
-        return cast(SB.Eviscerate)
-      end
-    end
-    if talent(7,2) and player.power.energy.actual >= 35 and player.power.combopoints.actual >= 4 and -spell(SB.SecretTechnique) == 1 then
-    	return cast(SB.Eviscerate)
-    end
-    if spell(SB.ShadowDance).fractionalcharges >= 1.75 and not -buff(SB.ShadowDance) and y == 1 then
-      return cast(SB.ShadowDance)
-    end
-    if -player.buff(SB.ShadowDance) and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and y == 1 then 
-     return cast(SB.ShadowStrike)
-    end
-    if -spell(SB.Backstab) == 0 and player.power.energy.actual >= 35 and y == 1 then
-      return cast(SB.Backstab)
-    end
+
     if player.buff(SB.ShadowBlades).down and y == 1 and -spell(SB.ShadowBlades) == 1 then
       y = 99
       print ("Opener Done")
@@ -157,8 +127,13 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
   end
 
 
-    
 
+------------------------
+-- Roll the Bones Logic TBA
+------------------------
+-- NOT == nil
+
+-- TRUE == true
 
 
 
@@ -166,52 +141,48 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -- Standard Rotation
 ---------------------
 
-    if -buff(SB.Stealth) and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 then 
-      return cast(SB.ShadowStrike)
-    end
-    if not -target.debuff(SB.Nightblade) and player.power.combopoints.actual >= 3 and player.power.energy.actual >= 20 then
-     return cast(SB.Nightblade, 'target')
-    end
-    if target.debuff(SB.Nightblade).remains < 4 and player.power.combopoints.actual >= 3 and player.power.energy.actual >= 20 then
-      return cast(SB.Nightblade)
-    end
-    if inRange >= AoE and talent(7,3) and player.power.energy.actual >= 60 and player.spell(SB.ShurikenTornado).cooldown == 0 then 
-      return cast(SB.ShurikenTornado)
-    end
-    if talent(7,2) and talent(3,2) and -spell(SB.SecretTechnique) == 0 and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 6 then
-        return cast(SB.SecretTechnique)
-       else
-      if talent(7,2) and talent(3,1) or talent (3,3) and -spell(SB.SecretTechnique) == 0 and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 4 and not talent(3,2) then
-      return cast(SB.SecretTechnique)
-    end
+  if player.buff(SB.Opportunity).up and -spell(SB.PistolShot) == 0 then
+    return cast(SB.PistolShot)
   end
-    if talent(3,2) and -spell(SB.Eviscerate) == 0 and player.power.energy.actual >= 35 and player.power.combopoints.actual >= 5 then
-      return cast(SB.Eviscerate)
-    else 
-     if talent(3,1) or talent(3,3) and player.power.combopoints.actual >= 4 and -spell(SB.Eviscerate) == 0 and player.power.energy.actual >= 35 and not talent(3,2) then
-      return cast(SB.Eviscerate)
-    end
-    end
-    if spell(SB.ShadowDance).fractionalcharges >= 1.75 and not -buff(SB.ShadowDance) and inRange < AoE then
-      return cast(SB.ShadowDance)
-    end
-    if -buff(SB.ShadowDance) and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and inRange < AoE then 
-      return cast(SB.ShadowStrike)
-    end
-    if -spell(SB.SymbolsOfDeath) == 0 and player.power.energy.actual <= 65 then 
-      return cast(SB.SymbolsOfDeath)
-    end
-    if  -spell(SB.MarkedforDeath) == 0 and player.power.combopoints.actual <=  2 and talent(3,3) then
-      return cast(SB.MarkedforDeath)
-    end
-    if -spell(SB.ShurikenStorm) == 0 and player.power.energy.actual >= 28 and inRange >= 2 then
-      return cast(SB.ShurikenStorm, 'target')
-    end
+  if player.buff(SB.RuthlessPrecision).up and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 5 and -spell(SB.BetweenTheEyes) == 0 then
+    return cast(SB.BetweenTheEyes)
+  end
+  if talent(6,3) and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 5 and -spell(SB.SliceAndDice) == 0 and not -buff(SB.SliceAndDice) then
+    return cast(SB.SliceAndDice)
+  end
+--  if player.buff(SB.RuthlessPrecision).down or player.buff(SB.GrandMelee).down and not player.buff(SB.RuthlessPrecision).up or player.buff(SB.GrandMelee).up and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
+  --  return cast(SB.RollTheBones)
+ -- end
 
-    if -spell(SB.Backstab) == 0 and player.power.energy.actual >= 28 and inRange < 2 then
-      return cast(SB.Backstab, 'target')
-    end
-   
+if player.buff(SB.RuthlessPrecision).down and player.buff(SB.GrandMelee).down and not player.buff(SB.RuthlessPrecision).exists and not player.buff(SB.GrandMelee).exists and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 3 then
+    return cast(SB.RollTheBones)
+  end
+  if player.power.energy.actual >= 35 and player.power.combopoints.actual >= 5 and -spell(SB.Dispatch) == 0 then
+    return cast(SB.Dispatch)
+  end
+  if cds == true and -spell(SB.AdrenalineRush) == 0 and player.power.energy.actual < 80 then
+    return cast(SB.AdrenalineRush)
+  end
+  if -spell(SB.KillingSpree) == 0 and player.buff(SB.BladeFlurry).up and inRange >= AoE and player.buff(SB.AndrenalineRush).down and talent(7,3) then
+    return cast(SB.KillingSpree)
+  end
+  if -spell(SB.BladeFlurry) == 0 and player.buff(SB.BladeFlurry).down and inRange >= AoE then 
+    return cast(SB.BladeFlurry)
+  end
+  if inRange < AoE and not -buff(SB.AdrenalineRush) and -spell(SB.KillingSpree) and talent(7,3) and player.power.energy.actual < 30 then
+    return cast(SB.KillingSpree)
+  end
+  if talent(7,2) and -spell(SB.BladeRush) == 0 and player.power.energy.actual < 80 then
+    return cast(SB.BladeRush)
+  end
+  if player.power.energy.actual >= 60 and -spell(SB.Vanish) == 0 and -spell(SB.Ambush) == 0 then
+    return cast(SB.Vanish)
+  end
+  if player.power.energy.actual >= 45 and -spell(SB.SinisterStrike) == 0 then
+    return cast(SB.SinisterStrike)
+  end
+
+
 
 
 
@@ -223,8 +194,12 @@ end
 
 
 local function resting()
+
+  if lastcast(SB.Vanish) and -spell(SB.Ambush) == 0 then
+    return cast(SB.Ambush)
+  end
   
-  if not -buff(SB.Stealth) and -spell(SB.Stealth) == 0 and player.alive then
+  if player.buff(SB.Stealth).down and -spell(SB.Stealth) == 0 and player.alive then
   	y = 0
     return cast(SB.Stealth)
   end
@@ -343,8 +318,8 @@ local function interface()
   })
 end
 dark_addon.rotation.register({
-  spec = dark_addon.rotation.classes.rogue.subtlety,
-  name = 'AHsubtlety',
+  spec = dark_addon.rotation.classes.rogue.outlaw,
+  name = 'AHoutlaw',
   label = 'AhFack Rotations',
   combat = combat,
   resting = resting,

@@ -3,13 +3,13 @@ local addon, dark_addon = ...
 dark_addon.rotation.spellbooks.rogue = {
 
 
-RolltheBones = 193316,
+RollTheBones = 193316,
 GhostlyStrike = 196937,
 KillingSpree = 51690,
 AdrenalineRush = 13750,
 BladeRush = 271877,
 MarkedforDeath = 137619,
-BetweentheEyes = 199804,
+BetweenTheEyes = 199804,
 Dispatch = 2098,
 Opportunity = 195627,
 PistolShot = 185763,
@@ -27,7 +27,7 @@ Backstab = 53,
 Eviscerate = 196819,
 ShurikenStorm = 197835,
 Gloomblade = 200758,
-ShrikenTornado = 277925,
+ShurikenTornado = 277925,
 ToxicBlade = 245388,
 Exsanguinate = 200806,
 CrimsonTempest = 121411,
@@ -54,6 +54,13 @@ Blindside = 111240,
 DeadlyPoison = 2823,
 Subterfuge = 108208,
 CripplingPoison = 3408,
+Broadside = 193356,
+BuriedTreasure = 199600,
+GrandMelee = 193358,
+RuthlessPrecision = 193357,
+SkullAndCrossbones = 199603,
+BladeFlurry = 13877,
+
 
 
 ----

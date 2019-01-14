@@ -94,6 +94,20 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
             end
     end
 
+
+-------------
+-- Cooldowns
+-------------
+
+   if cds == true and -spell(SB.ShadowBlades) == 0 then
+      return cast(SB.ShadowBlades, 'target')
+    end
+
+
+
+
+    
+
 -----------
 -- Opener
 -----------
@@ -134,13 +148,15 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
     if -spell(SB.Backstab) == 0 and player.power.energy.actual >= 35 and y == 1 then
       return cast(SB.Backstab)
     end
-    if player.buff(SB.ShadowBlades).down and y == 1 and spell(SB.ShadowBlades) == 1 then
+    if player.buff(SB.ShadowBlades).down and y == 1 and -spell(SB.ShadowBlades) == 1 then
       y = 99
       print ("Opener Done")
       return 
     end
 
   end
+
+
     
 
 
@@ -153,10 +169,16 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
     if -buff(SB.Stealth) and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 then 
       return cast(SB.ShadowStrike)
     end
-    if not target.debuff(SB.Nightblade) and player.power.combopoints.actual >= 3 and player.power.energy.actual >= 20 and -spell(SB.Nightblade) == 0 then
+    if not -target.debuff(SB.Nightblade) and player.power.combopoints.actual >= 3 and player.power.energy.actual >= 20 then
      return cast(SB.Nightblade, 'target')
     end
-       if talent(7,2) and talent(3,2) and -spell(SB.SecretTechnique) == 0 and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 6 then
+    if target.debuff(SB.Nightblade).remains < 4 and player.power.combopoints.actual >= 3 and player.power.energy.actual >= 20 then
+      return cast(SB.Nightblade)
+    end
+    if inRange >= AoE and talent(7,3) and player.power.energy.actual >= 60 and player.spell(SB.ShrikenTornado).cooldown == 0 then 
+      return cast(SB.ShrikenTornado)
+    end
+    if talent(7,2) and talent(3,2) and -spell(SB.SecretTechnique) == 0 and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 6 then
         return cast(SB.SecretTechnique)
        else
       if talent(7,2) and talent(3,1) or talent (3,3) and -spell(SB.SecretTechnique) == 0 and player.power.energy.actual >= 24 and player.power.combopoints.actual >= 4 and not talent(3,2) then
@@ -170,10 +192,10 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
       return cast(SB.Eviscerate)
     end
     end
-    if -spell(SB.ShadowDance).fractionalcharges >= 1.75 and player.buff(SB.ShadowDance).down and -spell(SB.ShadowDance) == 0 and inRange < AoE then
+    if spell(SB.ShadowDance).fractionalcharges >= 1.75 and not -buff(SB.ShadowDance) and inRange < AoE then
       return cast(SB.ShadowDance)
     end
-    if player.buff(SB.ShadowDance).up and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and inRange < AoE then 
+    if -buff(SB.ShadowDance) and -spell(SB.ShadowStrike) == 0 and player.power.energy.actual >= 40 and inRange < AoE then 
       return cast(SB.ShadowStrike)
     end
     if -spell(SB.SymbolsOfDeath) == 0 and player.power.energy.actual <= 65 then 
@@ -190,13 +212,6 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
       return cast(SB.Backstab, 'target')
     end
    
--------------
--- Cooldowns
--------------
-
-   if cds == true and -spell(SB.ShadowBlades) == 0 then
-      return cast(SB.ShadowBlades, 'target')
-    end
 
 
 
@@ -262,7 +277,6 @@ local function interface()
       { type = 'text', text = 'Hack and Slash your enemies with this wonderful Rotation!' },
       { type = 'rule' },   
       { type = 'text', text = 'Class Specific' },
-      { key = 'multit', type = 'checkbox', text = 'Multitarget', desc = 'Use Shuriken Storm in Multitarget' },
       { key = 'cds', type = 'checkbox', text = 'Cooldowns', desc = 'Use Shadow Blades in Combat' },
       { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', min = 10, max = 100, step = 5 },
       { type = 'rule' },   

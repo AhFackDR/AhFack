@@ -46,13 +46,13 @@ local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
 ---------------
 
 
-    local AoE = 3
+    local AoE = 4
   
 
     local inRange = 0
 
       for i = 1, 40 do
-            if UnitExists('nameplate' .. i) and IsSpellInRange('Mutilate', 'nameplate' .. i) == 1 and UnitAffectingCombat('nameplate' .. i) then
+            if UnitExists('nameplate' .. i) and IsSpellInRange('Garrote', 'nameplate' .. i) == 1 and UnitAffectingCombat('nameplate' .. i) then
                 inRange = inRange + 1
             end
         end
@@ -238,13 +238,13 @@ if talent(6,2) then
    if target.debuff(SB.Rupture).down and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 25 then
      return cast(SB.Rupture, 'target')
     end
-   if target.debuff(SB.Garrote).down and player.power.combopoints.actual <= 4 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 then
+   if target.debuff(SB.Garrote).down and player.power.combopoints.actual <= 4 and player.power.energy.actual >= 45 and player.spell(SB.Garrote).cooldown == 0 then
    	return cast(SB.Garrote)
    end
    if player.buff(SB.Subterfuge).down and -spell(SB.Vanish) == 0 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains <= 5.4 then 
    	return cast(SB.Vanish)
    end
-   if player.buff(SB.Subterfuge).up and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains <= 5 then
+   if player.buff(SB.Subterfuge).up and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains < 5 then
    	return cast(SB.Garrote)
    end
      if target.debuff(SB.Rupture).remains < 2 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 25 then
@@ -262,10 +262,10 @@ if talent(6,2) then
    if -spell(SB.Envenom) == 0 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 35 then
    	return cast(SB.Envenom) 
    end
-   if -spell(SB.FanOfKnives) == 0 and player.power.energy.actual >= 35 and inRange > AoE then
+   if -spell(SB.FanOfKnives) == 0 and player.power.energy.actual >= 35 and inRange >= AoE then
    	return cast(SB.FanOfKnives)
    end
-   if -spell(SB.Mutilate) == 0 and player.power.energy.actual >= 50 and inRange <= AoE then
+   if -spell(SB.Mutilate) == 0 and player.power.energy.actual >= 50 and inRange < AoE then
    	return cast(SB.Mutilate)
    end
 
@@ -287,7 +287,7 @@ local function resting()
  	end
 
   
-  if not -player.buff(SB.Stealth) and player.spell(SB.Stealth).cooldown == 0 and player.alive then
+  if not -buff(SB.Stealth) and player.spell(SB.Stealth).cooldown == 0 and player.alive then
   	y = 0
     return cast(SB.Stealth)
   end

@@ -1,4 +1,19 @@
 # AhFack
+
+How to Install:
+
+Step 1. Download my Addon.
+ 
+Step 2. When downloaded, extract my folder into your interface/addons folder. 
+
+Step 3. Remove "-master" from the folder name and simply call it "AhFack".
+
+Step 4. Replace Spellbooks in Dark_Addon/Rotations/#CLASS# with the one's I've provided.
+
+Step 5. Load your game, and Complete.
+
+
+
 AhFack Rotations
 Replace every Spellbook in Dark_Addon/Rotations/CLASS with the ones I supply.
 

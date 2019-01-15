@@ -93,6 +93,10 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
               return cast(SB.Blind, 'target')
             end
     end
+        if -spell(SB.KidneyShot) == 0 and modifier.control and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
+      return cast(SB.KidneyShot)
+    end
+
 
 
 -------------
@@ -141,7 +145,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -- Standard Rotation
 ---------------------
 
-  if player.buff(SB.Opportunity).up and -spell(SB.PistolShot) == 0 then
+  if player.buff(SB.Opportunity).up and -spell(SB.PistolShot) == 0 and player.combopoints <= 4 then
     return cast(SB.PistolShot)
   end
   if player.buff(SB.RuthlessPrecision).up and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 5 and -spell(SB.BetweenTheEyes) == 0 then
@@ -154,7 +158,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
   --  return cast(SB.RollTheBones)
  -- end
 
-if player.buff(SB.RuthlessPrecision).down and player.buff(SB.GrandMelee).down and not player.buff(SB.RuthlessPrecision).exists and not player.buff(SB.GrandMelee).exists and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 3 then
+if player.buff(SB.RuthlessPrecision).down and player.buff(SB.GrandMelee).down and not player.buff(SB.RuthlessPrecision).exists and not player.buff(SB.GrandMelee).exists and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
     return cast(SB.RollTheBones)
   end
   if player.power.energy.actual >= 35 and player.power.combopoints.actual >= 5 and -spell(SB.Dispatch) == 0 then
@@ -163,7 +167,7 @@ if player.buff(SB.RuthlessPrecision).down and player.buff(SB.GrandMelee).down an
   if cds == true and -spell(SB.AdrenalineRush) == 0 and player.power.energy.actual < 80 then
     return cast(SB.AdrenalineRush)
   end
-  if -spell(SB.KillingSpree) == 0 and player.buff(SB.BladeFlurry).up and inRange >= AoE and player.buff(SB.AndrenalineRush).down and talent(7,3) then
+  if -spell(SB.KillingSpree) == 0 and player.buff(SB.BladeFlurry).up and inRange >= AoE and not player.buff(SB.AdrenalineRush).exists and talent(7,3) then
     return cast(SB.KillingSpree)
   end
   if -spell(SB.BladeFlurry) == 0 and player.buff(SB.BladeFlurry).down and inRange >= AoE then 

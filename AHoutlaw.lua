@@ -145,7 +145,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -- Standard Rotation
 ---------------------
 
-  if player.buff(SB.Opportunity).up and -spell(SB.PistolShot) == 0 and player.combopoints <= 4 then
+  if player.buff(SB.Opportunity).up and -spell(SB.PistolShot) == 0 and player.power.combopoints.actual <= 4 then
     return cast(SB.PistolShot)
   end
   if player.buff(SB.RuthlessPrecision).up and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 5 and -spell(SB.BetweenTheEyes) == 0 then

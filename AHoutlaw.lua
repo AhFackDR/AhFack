@@ -48,7 +48,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
         end
 
 
-print (rollthebonestotal)
+
 -- print(inRange)
 
 --------------

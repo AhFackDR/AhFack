@@ -27,7 +27,7 @@ Backstab = 53,
 Eviscerate = 196819,
 ShurikenStorm = 197835,
 Gloomblade = 200758,
-ShurikenTornado = 277925,
+ShrikenTornado = 277925,
 ToxicBlade = 245388,
 Exsanguinate = 200806,
 CrimsonTempest = 121411,
@@ -60,7 +60,7 @@ GrandMelee = 193358,
 RuthlessPrecision = 193357,
 SkullAndCrossbones = 199603,
 BladeFlurry = 13877,
-
+TrueBearings = 193359,
 
 
 ----

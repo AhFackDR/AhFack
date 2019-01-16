@@ -48,7 +48,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
         end
 
 
-
+print (rollthebonestotal)
 -- print(inRange)
 
 --------------
@@ -133,13 +133,27 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 
 
 ------------------------
--- Roll the Bones Logic TBA
-------------------------
--- NOT == nil
+-- Roll the Bones Logic 
+-----------------------
 
--- TRUE == true
+  if -player.buff(SB.RuthlessPrecision) then rpb = 1 else rpb = 0 end
+  if -player.buff(SB.GrandMelee) then gmb = 1 else gmb = 0 end
+  if -player.buff(SB.Broadside) then bsb = 1 else bsb = 0 end
+  if -player.buff(SB.SkullAndCrossbones) then scb = 1 else scb = 0 end
+  if -player.buff(SB.BuriedTreasure) then btb = 1 else btb = 0 end
+  if -player.buff(SB.TrueBearings) then scb = 1 else scb = 0 end
+  rollthebonestotal = rpb + gmb + bsb + scb + btb + scb
 
-
+    if -spell(SB.RollTheBones) == 0 and rollthebonestotal < 2 and player.power.combopoints.actual >= 3 and not -player.buff(SB.GrandMelee) and not -player.buff(SB.RuthlessPrecision) then
+      print (rollthebonestotal)
+      rpb = 0
+      gmb = 0
+      bsb = 0
+      scb = 0 
+      btb = 0
+      scb = 0
+    return cast(SB.RollTheBones)
+  end
 
 ---------------------
 -- Standard Rotation
@@ -157,10 +171,9 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 --  if player.buff(SB.RuthlessPrecision).down or player.buff(SB.GrandMelee).down and not player.buff(SB.RuthlessPrecision).up or player.buff(SB.GrandMelee).up and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
   --  return cast(SB.RollTheBones)
  -- end
-
-if player.buff(SB.RuthlessPrecision).down and player.buff(SB.GrandMelee).down and not player.buff(SB.RuthlessPrecision).exists and not player.buff(SB.GrandMelee).exists and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
-    return cast(SB.RollTheBones)
-  end
+-- if player.buff(SB.RuthlessPrecision).down and player.buff(SB.GrandMelee).down and not player.buff(SB.RuthlessPrecision).exists and not player.buff(SB.GrandMelee).exists and player.power.energy.actual >= 25 and player.power.combopoints.actual >= 4 then
+  --  return cast(SB.RollTheBones)
+  -- end
   if player.power.energy.actual >= 35 and player.power.combopoints.actual >= 5 and -spell(SB.Dispatch) == 0 then
     return cast(SB.Dispatch)
   end

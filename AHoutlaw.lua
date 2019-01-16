@@ -141,17 +141,17 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
   if -player.buff(SB.Broadside) then bsb = 1 else bsb = 0 end
   if -player.buff(SB.SkullAndCrossbones) then scb = 1 else scb = 0 end
   if -player.buff(SB.BuriedTreasure) then btb = 1 else btb = 0 end
-  if -player.buff(SB.TrueBearings) then scb = 1 else scb = 0 end
-  rollthebonestotal = rpb + gmb + bsb + scb + btb + scb
+  if -player.buff(SB.TrueBearings) then tbs = 1 else tbs = 0 end
+  rollthebonestotal = rpb + gmb + bsb + scb + btb + tbs
 
     if -spell(SB.RollTheBones) == 0 and rollthebonestotal < 2 and player.power.combopoints.actual >= 3 and not -player.buff(SB.GrandMelee) and not -player.buff(SB.RuthlessPrecision) then
-      print (rollthebonestotal)
+      
       rpb = 0
       gmb = 0
       bsb = 0
       scb = 0 
       btb = 0
-      scb = 0
+      tbs = 0
     return cast(SB.RollTheBones)
   end
 

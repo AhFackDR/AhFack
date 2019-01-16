@@ -152,12 +152,12 @@ local function interface()
       { key = 'multit', type = 'checkbox', text = 'Multitarget', desc = 'Use Mind Sear in Multitarget' },
       { key = 'multidot', type = 'checkbox', text = 'Multi Dotting', desc = 'Hold down Shift to use your Macro to Mouseover DoT' },
       { key = 'cds', type = 'checkbox', text = 'Cooldowns', desc = 'Use Mindbender / Shadowfiend in Combat' },
-      { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', min = 10, max = 100, step = 5 },
+      { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', default_spin = 60, min = 10, max = 100, step = 5 },
       { type = 'rule' },   
 
       { type = 'text', text = 'Defensives' },
-      { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', min = 10, max = 100, step = 5 },
-      { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', min = 10, max = 100, step = 5 },
+      { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', default_spin = 10, min = 10, max = 100, step = 5 },
+      { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', default_spin = 20, min = 10, max = 100, step = 5 },
       { type = 'rule' },
 
       { type = 'text', text = 'Utility' },

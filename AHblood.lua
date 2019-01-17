@@ -108,7 +108,7 @@ local taunt = dark_addon.settings.fetch('dr_example_taunt.check')
 -- Opener
 -----------
  
-  if target.alive and target.enemy and player.alive and not player.channeling() and target.distance >= 8 then
+  if target.alive and target.enemy and player.alive and not player.channeling() and target.distance < 8 then
     auto_attack()
 
 --  if toggle('opener', false) and y ~= 99 then

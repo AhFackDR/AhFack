@@ -151,9 +151,9 @@ local taunt = dark_addon.settings.fetch('dr_example_taunt.check')
 	if player.health.percent <= 60 and talent(1,2) and player.spell(SB.BloodDrinker).cooldown == 0 and inRange < AoE then
 		return cast(SB.BloodDrinker)
 	end
-    if player.buff(SB.BoneShield).count < 2 and player.spell(SB.MarrowRend).cooldown == 0 and player.power.runes.count >= 2 and inRange > AoE then
-      return cast(SB.MarrowRend)
-    end
+  if player.power.runes.count >= 5 and -spell(SB.MarrowRend) == 0  and player.power.runes.actual >= 2 and inRange < AoE then
+    return cast(SB.MarrowRend, 'target')
+  end
 	if not target.debuff(SB.BloodPlague).exists and player.spell(SB.BloodBoil).cooldown == 0 and inRange < AoE then
 		return cast(SB.BloodBoil)
 	end

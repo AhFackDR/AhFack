@@ -144,7 +144,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
   if -player.buff(SB.TrueBearings) then tbs = 1 else tbs = 0 end
   rollthebonestotal = rpb + gmb + bsb + scb + btb + tbs
 
-    if -spell(SB.RollTheBones) == 0 and rollthebonestotal < 2 and player.power.combopoints.actual >= 3 and not -player.buff(SB.GrandMelee) and not -player.buff(SB.RuthlessPrecision) then
+    if -spell(SB.RollTheBones) == 0 and rollthebonestotal < 2 and player.power.combopoints.actual >= 4 and not -player.buff(SB.GrandMelee) and not -player.buff(SB.RuthlessPrecision) then
       
       rpb = 0
       gmb = 0
@@ -177,7 +177,7 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
   if player.power.energy.actual >= 35 and player.power.combopoints.actual >= 5 and -spell(SB.Dispatch) == 0 then
     return cast(SB.Dispatch)
   end
-  if cds == true and -spell(SB.AdrenalineRush) == 0 and player.power.energy.actual < 80 then
+  if cds == true and -spell(SB.AdrenalineRush) == 0 and player.power.energy.actual < 80 and (rollthebonestotal < 2 or player.buff(SB.GrandMelee).exists or player.buff(SB.RuthlessPrecision).exists) then
     return cast(SB.AdrenalineRush)
   end
   if -spell(SB.KillingSpree) == 0 and player.buff(SB.BladeFlurry).up and inRange >= AoE and not player.buff(SB.AdrenalineRush).exists and talent(7,3) then

@@ -184,7 +184,7 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin', 70)
       return cast(SB.ClawingShadows, 'target')
     end
   end
-  if -pell(SB.Apocalypse) == 0 and target.debuff(SB.FesteringWounds).count >= 6  and inRange < AoE then
+  if -spell(SB.Apocalypse) == 0 and target.debuff(SB.FesteringWounds).count >= 6  and inRange < AoE then
     return cast(SB.Apocalypse, 'target')
   end
   if -spell(SB.FesteringStrike) == 0 and player.power.runes.count >= 2  and inRange < AoE then

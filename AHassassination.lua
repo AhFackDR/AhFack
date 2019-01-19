@@ -39,7 +39,7 @@ local feint = dark_addon.settings.fetch('dr_example_feint.check')
 local feintpercent = dark_addon.settings.fetch('dr_example_feint.spin', 50)
 local healthstonepercent = dark_addon.settings.fetch('dr_example_healthstone.spin', 35)
 local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
-local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
+
 
 ---------------
 -- Experimental
@@ -159,7 +159,7 @@ local exsanguinate = dark_addon.settings.fetch('dr_example_exsanguinate.check')
 -----------------------
  -- Smart Exsanguinate
  ----------------------
-if talent (6,3) and v ~= 99 and -spell(SB.Exsanguinate) == 0 and exsanguinate == true then
+if talent (6,3) and v ~= 99 and -spell(SB.Exsanguinate) == 0 then
 
 	if -spell(SB.Exsanguinate) == 0 and -spell(SB.Rupture) == 0 and player.power.combopoints.actual >= 4 and target.debuff(SB.Rupture).remains < 6 and player.power.energy.actual >= 25 and v == 0 then
 		v = v + 1
@@ -183,7 +183,7 @@ end
 ---------------------
 -- Exsanguinate Build
 ---------------------
-if talent(6,3) and exsanguinate == true then
+if talent(6,3) then
 
    if not target.debuff(SB.Rupture).exists and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 25 and not lastcast(SB.Exsanguinate) then
    	v = 0
@@ -350,7 +350,7 @@ local function interface()
       { type = 'text', text = 'Class Specific' },
       { key = 'cds', type = 'checkbox', text = 'Cooldowns', desc = 'Use Vendetta in Combat' },
       { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', default_spin = 60, min = 10, max = 100, step = 5 },
-      { key = 'exsanguinate', type = 'checkbox', text = 'Exsanguinate Talented', desc = 'Check if you have Exsanguinate Talented.'},
+
       { type = 'rule' },   
 
       { type = 'text', text = 'Defensives' },

@@ -159,9 +159,9 @@ local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 -----------------------
  -- Smart Exsanguinate
  ----------------------
-if talent (6,3) and v ~= 99 and -spell(SB.Exsanguinate) == 0 then
+if talent (6,3) and v ~= 99 and player.spell(SB.Exsanguinate).cooldown == 0 then
 
-	if -spell(SB.Exsanguinate) == 0 and -spell(SB.Rupture) == 0 and player.power.combopoints.actual >= 4 and target.debuff(SB.Rupture).remains < 6 and player.power.energy.actual >= 25 and v == 0 then
+	if player.spell(SB.Exsanguinate).cooldown == 0 and player.spell(SB.Rupture).cooldown == 0 and player.power.combopoints.actual >= 4 and target.debuff(SB.Rupture).remains < 6 and player.power.energy.actual >= 25 and v == 0 then
 		v = v + 1
 		print ("EXSANGUINATE START")
 		return cast(SB.Rupture)
@@ -200,7 +200,7 @@ if talent(6,3) then
    	return cast(SB.Garrote)
    end
 
-   if not -buff(SB.Subterfuge) and -spell(SB.Vanish) == 0 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains < 5.4 then 
+   if not -buff(SB.Subterfuge) and -spell(SB.Vanish) == 0 and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains < 5.4 and -spell(SB.Exsanguinate) == 0 then 
    	return cast(SB.Vanish)
    end
    if -buff(SB.Subterfuge) and player.power.energy.actual >= 45 and -spell(SB.Garrote) == 0 and target.debuff(SB.Garrote).remains < 5.4 then

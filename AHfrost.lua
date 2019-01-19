@@ -62,7 +62,7 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin', 70)
 -- Utility
 ------------
 
-  if grip == true and modifier.alt and -spell(SB.DeathGrip) == 0 then
+  if grip == true and modifier.shift and -spell(SB.DeathGrip) == 0 then
    return cast(SB.DeathGrip)
    end
 
@@ -92,35 +92,20 @@ local dsperc = dark_addon.settings.fetch('dr_example_ds.spin', 70)
 --------------------------
 
 
-   if (not target.debuff(SB.VirulentPlague).exists or target.debuff(SB.VirulentPlague).remains <= 2) and player.power.runes.count >= 1 and player.spell(SB.Outbreak).cooldown == 0 then
-      return cast(SB.Outbreak, 'target')
-    end
-
-   if player.buff(SB.SuddenDoom) and -spell(SB.DeathCoil) == 0 then
-    return cast(SB.DeathCoil, 'target')
-  end
-  if modifier.shift and player.spell(SB.DeathAndDecay).cooldown == 0 and player.power.runes.count >= 1 then
-    return cast(SB.DeathAndDecay, 'ground')
-    else
-            if modifier.shift and -spell(SB.Defile) == 0 and talent(6,2) and player.power.runes.count >= 1 then
-              return cast(SB.Defile, 'ground')
-            end
-  end
-
 
 --------------
 -- Cooldowns
 --------------
 
-  if cds == true and player.spell(SB.DarkTransformation).cooldown == 0 then
-    return cast(SB.DarkTransformation)
-  end
-  if cds == true and talent(7,2) and player.spell(SB.UnholyFrenzy).cooldown == 0 then
-    return cast(SB.UnholyFrenzy)
-  end
-  if cds == true and talent(7,3) and player.spell(SB.SummonGargoyle).cooldown == 0 then
-    return cast(SB.SummonGargoyle)
-  end
+
+if cds == true and -spell(SB.PillarOfFrost) == 0 then
+  return cast(SB.PillarOfFrost)
+end
+
+if modifier.alt and -spell(SB.ChainsOfIce) == 0 and player.runes.count >= 1 then
+  return cast(SB.ChainsOfIce)
+end
+
 
 
 
@@ -136,13 +121,13 @@ end
 if -spell(SB.RemorselessWinter) == 0 then
   return cast(SB.RemorselessWinter)
 end
-if talent(1,3) and -buff(SB.ColdHeart).count >= 5 and -spell(SB.ChainsOfIce) == 0 and player.power.runes.actual < 1 then 
-  return cast(ChainsOfIce)
+if talent(1,3) and player.buff(SB.ColdHeart).count > 15 and -spell(SB.ChainsOfIce) == 0 and player.power.runes.count >= 1 then 
+  return cast(SB.ChainsOfIce)
 end
 if -buff(SB.RemorselessWinter).remains < 4 and talent(6,1) and -spell(SB.FrostStrike) == 0 then
   return cast(SB.FrostStrike)
 end
-if -buff(SB.Rime).exists and -spell(SB.HowlingBlast) == 0 then
+if player.buff(SB.Rime).up and -spell(SB.HowlingBlast) == 0 then
   return cast(SB.HowlingBlast)
 end
 if talent(4,2) and -spell(SB.Obliterate) == 0 then
@@ -154,15 +139,15 @@ end
 if cds == true and -spell(SB.PillarOfFrost) == 0 then
   return cast(SB.PillarOfFrost)
 end
-if player.power.runicpower.actual >= 75 and -spell(SB.BreathOfSindragosa) == 0 then
+if player.power.runicpower.actual >= 75 and -spell(SB.BreathOfSindragosa) == 0 and talent(7,3) then
   return cast(SB.BreathOfSindragosa)
 end
 if player.power.runicpower.actual >= 73 and -spell(SB.FrostStrike) == 0 and player.spell(SB.BreathOfSindragosa).cooldown == 1 then
   return cast(SB.FrostStrike)
 end
-if -buff(SB.KillingSpree).exists and talent(4,3) and -spell(SB.FrostScythe) == 0 then 
+if player.buff(SB.KillingMachine).up and talent(4,3) and -spell(SB.FrostScythe) == 0 then 
   return cast(SB.FrostScythe)
-  elseif -buff(SB.KillingSpree).exists and -spell(SB.Obliterate) == 0 then
+  elseif player.buff(SB.KillingMachine).up and -spell(SB.Obliterate) == 0 then
     return cast(SB.Obliterate)
   end
 end
@@ -190,7 +175,7 @@ end
 if talent(6,1) and -spell(SB.RemorselessWinter) == 0 then
   return cast(SB.RemorselessWinter)
 end
-if talent(7,3) and -spell(SB.BreathOfSindragosa) == 0 and player.power.runicpower.actual >= 75 then
+if talent(7,3) and -spell(SB.BreathOfSindragosa) == 0 and player.power.runicpower.actual >= 75 and talent(7,3) then
   return cast(SB.BreathOfSindragosa)
 end
 if player.power.runicpower.actual >= 73 and talent(6,2) and -spell(SB.GlacialAdvance) == 0 then 
@@ -201,18 +186,18 @@ end
 if talent(6,3) and -spell(SB.FrostwyrmsFury) == 0 then
   return cast(SB.FrostwyrmsFury)
 end
-if -buff(SB.Rime).exists and -spell(SB.HowlingBlast) == 0 then
+if player.buff(SB.Rime).up and -spell(SB.HowlingBlast) == 0 then
   return cast(SB.HowlingBlast)
 end
-if talent (4,3) and player.buff(SB.KillingSpree).up and -spell(SB.FrostScythe) == 0 then
+if talent (4,3) and player.buff(SB.KillingMachine).up and -spell(SB.FrostScythe) == 0 then
   return cast(SB.FrostScythe)
-  elseif -spell(SB.Obliterate) == 0 and player.buff(SB.KillingSpree).up then
+  elseif -spell(SB.Obliterate) == 0 and player.buff(SB.KillingMachine).up then
     return cast(SB.Obliterate)
   end
 if -spell(SB.RemorselessWinter) == 0 then
   return cast(SB.RemorselessWinter)
 end
-if -spell(SB.Obliterate) == 0 and player.power.runes.actual >= 2 then
+if -spell(SB.Obliterate) == 0 and player.power.runes.count >= 2 then
   return cast(SB.Obliterate)
 end
 if talent(6,2) and -spell(SB.GlacialAdvance) == 0 then
@@ -248,7 +233,7 @@ local function interface()
     resize = true,
     show = false,
     template = {
-      { type = 'header', text = '               Unholy Settings' },
+      { type = 'header', text = '               Frost Settings' },
       { type = 'text', text = 'Freeze your enemies with this wonderful Rotation!' },
       { type = 'rule' },   
       { type = 'text', text = 'Class Specific' },
@@ -264,8 +249,7 @@ local function interface()
       { type = 'rule' },
 
       { type = 'text', text = 'Utility' },
-      { key = 'grip', type = 'checkbox', text = 'Death Grip', desc = 'Grips target when holding ALT' },
-      { key = 'callpet', type = 'checkbox', text = 'Auto-Call Pet', desc = 'Automaticly calls Pet' },
+      { key = 'grip', type = 'checkbox', text = 'Death Grip', desc = 'Grips target when holding SHIFT' },
       { key = 'army', type = 'checkbox', text = 'Army of the Dead', desc = 'Casts Army of the Dead when holding CTRL in Resting' },
 
   }

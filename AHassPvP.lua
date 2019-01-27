@@ -2,6 +2,7 @@
 -- Functions: Auto-Queue Accepter, Auto-Stealth, Auto-Poison. 
 -- Modifiers: 
 		-- CTRL = Kidney Shot at 4 Points. I'd suggest using this in High M+ quite frequently.
+    -- SHIFT = Blind at current target.
 -- Macros: 
         -- Trick of the Trade on FOCUS: /use [@focus,exists,nodead][]Tricks of the Trade
 -- Suggested Talents:

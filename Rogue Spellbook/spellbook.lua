@@ -61,6 +61,9 @@ RuthlessPrecision = 193357,
 SkullAndCrossbones = 199603,
 BladeFlurry = 13877,
 TrueBearings = 193359,
+WoundPoison = 8679,
+CheapShot = 1833,
+
 
 
 ----

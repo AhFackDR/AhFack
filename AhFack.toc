@@ -12,3 +12,4 @@ AHblood.lua
 AHfrost.lua
 AHassassination.lua
 AHoutlaw.lua
+AhassPvP.lua

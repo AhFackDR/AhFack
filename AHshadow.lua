@@ -44,8 +44,8 @@ local autoleap = dark_addon.settings.fetch('dr_example_leap')
 if fade == true and -spell(SB.Fade) == 0 and player.health < fadepercent then
   return cast(SB.Fade)
 end
-if modifier.alt and -spell(SB.MassDispel) == 0 and massdispel == true then
-      return cast(SB.MassDispel, 'ground')
+if modifier.alt and -spell(SB.MassDispell) == 0 and massdispel == true then
+      return cast(SB.MassDispell, 'ground')
 end
 -- if modifier.ctrl and -spell(LeapOfFaith) == 0 and autoleap == true then
  -- return RunMacro('Leap')
@@ -66,10 +66,10 @@ end
        if multidot == true and -target.debuff(SB.ShadowWordPain) and modifier.shift and -spell(SB.ShadowWordPain) == 0 then
       return RunMacro('Pain')
     end
-    if -player.buff(SB.VoidForm) and player.spell(SB.VoidBolt).cooldown == 0 then 
+    if player.buff(SB.VoidForm).up and player.spell(SB.VoidBolt).cooldown == 0 then 
       return cast(SB.VoidBolt, 'target')
    end
-   if not -player.buff(SB.VoidForm) and player.spell(SB.VoidEruption).cooldown == 0 and player.power.insanity.actual > 90 then
+   if player.buff(SB.VoidForm).down and player.spell(SB.VoidEruption).cooldown == 0 and player.power.insanity.actual > 90 then
     return cast(SB.VoidEruption, 'target')
   end
 
@@ -95,10 +95,10 @@ end
     if multit == true and talent(5,3) and player.spell(SB.ShadowCrash).cooldown == 0 then
       return cast(SB.ShadowCrash, 'target')
     end
-    if talent(6,3) and -player.buff(SB.VoidForm) and player.spell(SB.VoidTorrent).cooldown == 0 and player.power.insanity.actual < 30 then
+    if talent(6,3) and player.buff(SB.VoidForm).up and player.spell(SB.VoidTorrent).cooldown == 0 and player.power.insanity.actual < 30 then
       return cast(SB.VoidTorrent, 'target')
     end
-    if not -player.buff(SB.VoidForm) and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 then
+    if player.buff(SB.VoidForm).down and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 then
       return cast(SB.DarkAscension, 'target')
     end
     if  player.spell(SB.MindBlast).cooldown == 0 then
@@ -123,12 +123,12 @@ end
 end
 local function resting()
   
-if not -player.buff(SB.ShadowForm) and player.spell(SB.ShadowForm).cooldown == 0 then
+if player.buff(SB.ShadowForm).down and player.spell(SB.ShadowForm).cooldown == 0 then
    return cast(SB.ShadowForm)
  end
 if not -player.buff(SB.PowerWordFortitude) and -spell(SB.PowerWordFortitude, 'player') == 0 then
-   return cast(SB.PowerWordFortitude, 'player')
- end
+  return cast(SB.PowerWordFortitude, 'player')
+end
 
 
   -- Put great stuff here to do when your out of combat
@@ -197,7 +197,7 @@ local function interface()
 end
 dark_addon.rotation.register({
   spec = dark_addon.rotation.classes.priest.shadow,
-  name = 'shadow',
+  name = 'AHshadow',
   label = 'AhFack Rotations',
   combat = combat,
   resting = resting,

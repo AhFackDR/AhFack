@@ -17,7 +17,7 @@ local multidot = dark_addon.settings.fetch('dr_example_multidot')
 local cds = dark_addon.settings.fetch('dr_example_cds')
 local vampiricembrace = dark_addon.settings.fetch('dr_example_vamp.check')
 local vamppercent = dark_addon.settings.fetch('dr_example_vamp.spin', 20)
-local dispersion = dark_addon.settings.fetch('dr_example_shadow.check')
+local dispersion = dark_addon.settings.fetch('dr_example_disp.check')
 local disppercent = dark_addon.settings.fetch('dr_example_disp.spin', 10)
 local intpercent = dark_addon.settings.fetch('dr_example_interrupt', 60)
 local healthstonepercent = dark_addon.settings.fetch('dr_example_healthstone.spin', 35)
@@ -34,9 +34,9 @@ local autoleap = dark_addon.settings.fetch('dr_example_leap')
       return cast(SB.Dispersion)
   end
 
-  -- if GetItemCooldown(5512) == 0 and player.health.percent < healthstonepercent and healthstone == true then
-  --  return RunMacro('Healthstone')
- -- end
+  if healthstone == true and player.health.percent < healthstonepercent and GetItemCount(5512) >= 1 and GetItemCooldown(5512) == 0 then
+     macro('/use Healthstone')
+  end
 
 
 -- Utility

@@ -268,10 +268,8 @@ if talent(6,2) then
    if -spell(SB.Envenom) == 0 and player.power.combopoints.actual >= 4 and player.power.energy.actual >= 35 then
    	return cast(SB.Envenom) 
    end
-   if -spell(SB.FanOfKnives) == 0 and player.power.energy.actual >= 35 and inRange >= AoE then
-   	return cast(SB.FanOfKnives)
-   end
-   if -spell(SB.Mutilate) == 0 and player.power.energy.actual >= 50 and inRange < AoE then
+
+   if -spell(SB.Mutilate) == 0 and player.power.energy.actual >= 50 then
    	return cast(SB.Mutilate)
    end
 
@@ -297,6 +295,10 @@ local function resting()
   	y = 0
     return cast(SB.Stealth)
   end
+  if -buff(SB.Stealth) and player.spell(SB.Sap).cooldown == 0 and player.alive and target.buff(SB.Stealth).exists and not target.debuff(SB.Sap).exists then
+    return cast(SB.Sap)
+  end
+
 
   if player.buff(SB.WoundPoison).down and -spell(SB.WoundPoison) == 0 and player.alive then
       return cast(SB.WoundPoison)

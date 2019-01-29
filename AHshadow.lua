@@ -157,6 +157,7 @@ local function interface()
 
       { type = 'text', text = 'Defensives' },
       { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', default_spin = 10, min = 10, max = 100, step = 5 },
+      { key = 'healthstone', type = 'checkspin', text = 'Healthstone at HP%', desc = 'What % you will be using Healthstones at', default_spin = 35, min = 10, max = 100, step = 5 },
       { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', default_spin = 20, min = 10, max = 100, step = 5 },
       { type = 'rule' },
 

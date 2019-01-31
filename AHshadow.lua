@@ -12,15 +12,14 @@ local dark_addon = dark_interface
 local SB = dark_addon.rotation.spellbooks.priest
 
 local function combat()
-local multit = dark_addon.settings.fetch('dr_example_multit')
 local multidot = dark_addon.settings.fetch('dr_example_multidot')
 local cds = dark_addon.settings.fetch('dr_example_cds')
 local vampiricembrace = dark_addon.settings.fetch('dr_example_vamp.check')
-local vamppercent = dark_addon.settings.fetch('dr_example_vamp.spin', 20)
-local dispersion = dark_addon.settings.fetch('dr_example_disp.check')
-local disppercent = dark_addon.settings.fetch('dr_example_disp.spin', 10)
-local intpercent = dark_addon.settings.fetch('dr_example_interrupt', 60)
-local healthstonepercent = dark_addon.settings.fetch('dr_example_healthstone.spin', 35)
+local vamppercent = dark_addon.settings.fetch('dr_example_vamp.spin')
+local dispersion = dark_addon.settings.fetch('dr_example_shadow.check')
+local disppercent = dark_addon.settings.fetch('dr_example_disp.spin')
+local intpercent = dark_addon.settings.fetch('dr_example_interrupt')
+local healthstonepercent = dark_addon.settings.fetch('dr_example_healthstone.spin')
 local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 local massdispel = dark_addon.settings.fetch('dr_example_massdispel')
 local autoleap = dark_addon.settings.fetch('dr_example_leap')
@@ -34,9 +33,9 @@ local autoleap = dark_addon.settings.fetch('dr_example_leap')
       return cast(SB.Dispersion)
   end
 
-  if healthstone == true and player.health.percent < healthstonepercent and GetItemCount(5512) >= 1 and GetItemCooldown(5512) == 0 then
-     macro('/use Healthstone')
-  end
+  -- if GetItemCooldown(5512) == 0 and player.health.percent < healthstonepercent and healthstone == true then
+  --  return RunMacro('Healthstone')
+ -- end
 
 
 -- Utility
@@ -44,8 +43,8 @@ local autoleap = dark_addon.settings.fetch('dr_example_leap')
 if fade == true and -spell(SB.Fade) == 0 and player.health < fadepercent then
   return cast(SB.Fade)
 end
-if modifier.alt and -spell(SB.MassDispell) == 0 and massdispel == true then
-      return cast(SB.MassDispell, 'ground')
+if modifier.alt and -spell(SB.MassDispel) == 0 and massdispel == true then
+      return cast(SB.MassDispel, 'ground')
 end
 -- if modifier.ctrl and -spell(LeapOfFaith) == 0 and autoleap == true then
  -- return RunMacro('Leap')
@@ -55,6 +54,8 @@ end
 -- Rotation
 
    if target.alive and target.enemy and player.alive and not player.channeling() then
+   
+   -- Interrupt
 
     if -spell(SB.Silence, 'target') == 0 and target.interrupt(intpercent, false) then
       return cast(SB.Silence, 'target')
@@ -63,42 +64,44 @@ end
               return cast(SB.PsychicHorror, 'target')
             end
    end
+   -- Damage
+   
        if multidot == true and -target.debuff(SB.ShadowWordPain) and modifier.shift and -spell(SB.ShadowWordPain) == 0 then
       return RunMacro('Pain')
     end
-    if player.buff(SB.VoidForm).up and player.spell(SB.VoidBolt).cooldown == 0 then 
+    if -player.buff(SB.VoidForm) and player.spell(SB.VoidBolt).cooldown == 0 then 
       return cast(SB.VoidBolt, 'target')
    end
-   if player.buff(SB.VoidForm).down and player.spell(SB.VoidEruption).cooldown == 0 and player.power.insanity.actual > 90 then
+   if not -player.buff(SB.VoidForm) and player.spell(SB.VoidEruption).cooldown == 0 and player.power.insanity.actual > 90 then
     return cast(SB.VoidEruption, 'target')
   end
 
-    if not -target.debuff(SB.VampiricTouch) and -spell(SB.VampiricTouch) == 0 then
+    if (not -target.debuff(SB.VampiricTouch)) or -target.debuff(SB.VampiricTouch).remains < 6.3 and -spell(SB.VampiricTouch) == 0 then
       return cast(SB.VampiricTouch, 'target')
    end
-       if talent(3,3) and player.spell(SB.DarkVoid).cooldown == 0 and multit == true then
+       if talent(3,3) and player.spell(SB.DarkVoid).cooldown == 0 and enemies.around(10) >= 2 and not -target.debuff(SB.ShadowWordPain) then
       return cast(SB.DarkVoid)
     end
-    if not -target.debuff(SB.ShadowWordPain) and -spell(SB.ShadowWordPain) == 0 then
+    if (not -target.debuff(SB.ShadowWordPain)) or -target.debuff(SB.ShadowWordPain).remains < 4.8 and -spell(SB.ShadowWordPain) == 0 then
       return cast(SB.ShadowWordPain, 'target')
    end
     if cds == true and talent(6,2) and -spell(SB.MindbenderShadow) == 0 then
       return cast(SB.MindbenderShadow, 'target')
         else
-          if player.spell(SB.ShadowFiend).cooldown == 0 then
+          if player.spell(SB.ShadowFiend).cooldown == 0 and cds == true then
          return cast(SB.ShadowFiend, 'target')
       end 
     end
-    if talent(5,2) and target.health < 20 and player.spell(SB.ShadowWordDeath).cooldown == 0 then
+    if talent(5,2) and target.health <= 20 and player.spell(SB.ShadowWordDeath).cooldown == 0 then
       return cast(SB.ShadowWordDeath, 'target')
     end
-    if multit == true and talent(5,3) and player.spell(SB.ShadowCrash).cooldown == 0 then
+    if enemies.around(8) >= 3 and talent(5,3) and player.spell(SB.ShadowCrash).cooldown == 0 then
       return cast(SB.ShadowCrash, 'target')
     end
-    if talent(6,3) and player.buff(SB.VoidForm).up and player.spell(SB.VoidTorrent).cooldown == 0 and player.power.insanity.actual < 30 then
+    if talent(6,3) and -player.buff(SB.VoidForm) and player.spell(SB.VoidTorrent).cooldown == 0 and player.power.insanity.actual < 30 then
       return cast(SB.VoidTorrent, 'target')
     end
-    if player.buff(SB.VoidForm).down and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 then
+    if not -player.buff(SB.VoidForm) and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 then
       return cast(SB.DarkAscension, 'target')
     end
     if  player.spell(SB.MindBlast).cooldown == 0 then
@@ -111,7 +114,7 @@ end
 
 -- Fillers
 
-    if multit == true and -spell(SB.MindSear) == 0 then
+    if enemies.around(10) >= 2 and -spell(SB.MindSear) == 0 then
       return cast(SB.MindSear, 'target')
     end
 
@@ -123,13 +126,42 @@ end
 end
 local function resting()
   
-if player.buff(SB.ShadowForm).down and player.spell(SB.ShadowForm).cooldown == 0 then
+if not -player.buff(SB.ShadowForm) and player.spell(SB.ShadowForm).cooldown == 0 then
    return cast(SB.ShadowForm)
  end
 if not -player.buff(SB.PowerWordFortitude) and -spell(SB.PowerWordFortitude, 'player') == 0 then
-  return cast(SB.PowerWordFortitude, 'player')
+   return cast(SB.PowerWordFortitude, 'player')
+ end
+
+
+-- Auto Join
+local lfg = GetLFGProposal();
+local hasData = GetLFGQueueStats(LE_LFG_CATEGORY_LFD);
+local hasData2 = GetLFGQueueStats(LE_LFG_CATEGORY_LFR);
+local hasData3 = GetLFGQueueStats(LE_LFG_CATEGORY_RF);
+local hasData4 = GetLFGQueueStats(LE_LFG_CATEGORY_SCENARIO);
+local hasData5 = GetLFGQueueStats(LE_LFG_CATEGORY_FLEXRAID);
+local hasData6 = GetLFGQueueStats(LE_LFG_CATEGORY_WORLDPVP);
+local bgstatus = GetBattlefieldStatus(1);
+local autoaccept = dark_addon.settings.fetch('dr_example_autoaccept.check')
+
+-- print (bgstatus)
+if hasData == true or hasData2 == true or hasData4 == true or hasData5 == true or hasData6 == true or bgstatus == "queued" then
+ SetCVar ("Sound_EnableSoundWhenGameIsInBG",1)
+elseif hasdata == nil or hasData2 == nil or hasData3 == nil or hasData4 == nil or hasData5 == nil or hasData6 == nil or bgstatus == "none" then
+ SetCVar ("Sound_EnableSoundWhenGameIsInBG",0)
 end
 
+if lfg == true or bgstatus == "confirm" and autoaccept == true then
+  PlaySound(SOUNDKIT.IG_PLAYER_INVITE, "Dialog", false);
+  lftime = lftime + 1
+end
+
+if lftime >=math.random(20,35) and autoaccept == true then
+  SetCVar ("Sound_EnableSoundWhenGameIsInBG",0)
+  macro('/click LFGDungeonReadyDialogEnterDungeonButton')
+  lftime = 0
+end
 
   -- Put great stuff here to do when your out of combat
 end
@@ -149,22 +181,22 @@ local function interface()
       { type = 'text', text = 'Wop and DoT your enemies with this wonderful Rotation!' },
       { type = 'rule' },   
       { type = 'text', text = 'Class Specific' },
-      { key = 'multit', type = 'checkbox', text = 'Multitarget', desc = 'Use Mind Sear in Multitarget' },
       { key = 'multidot', type = 'checkbox', text = 'Multi Dotting', desc = 'Hold down Shift to use your Macro to Mouseover DoT' },
       { key = 'cds', type = 'checkbox', text = 'Cooldowns', desc = 'Use Mindbender / Shadowfiend in Combat' },
-      { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', default_spin = 60, min = 10, max = 100, step = 5 },
+      { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', min = 10, max = 100, step = 5 },
       { type = 'rule' },   
 
       { type = 'text', text = 'Defensives' },
-      { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', default_spin = 10, min = 10, max = 100, step = 5 },
-      { key = 'healthstone', type = 'checkspin', text = 'Healthstone at HP%', desc = 'What % you will be using Healthstones at', default_spin = 35, min = 10, max = 100, step = 5 },
-      { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', default_spin = 20, min = 10, max = 100, step = 5 },
+      { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', min = 10, max = 100, step = 5 },
+      { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', min = 10, max = 100, step = 5 },
       { type = 'rule' },
 
       { type = 'text', text = 'Utility' },
       { key = 'massdispel', type = 'checkbox', text = 'Mass Dispel', desc = 'Use Mass Dispel on Cursor when Alt is held down.' },
       { key = 'fade', type = 'checkspin', text = 'Fade', desc = 'Use Fade when hit a certain amount of health.' },
       { key = 'autoleap', type = 'checkbox', text = 'Leap of Faith', desc = 'Use Leap of Faith macro when Ctrl is held down.' },
+	  { key = 'autoaccept', type = 'checkbox', text = 'Auto Accept Queue', desc = 'Auto Accepts any Queue for BGs and DGs'},
+      
 
 
 
@@ -198,7 +230,7 @@ local function interface()
 end
 dark_addon.rotation.register({
   spec = dark_addon.rotation.classes.priest.shadow,
-  name = 'AHshadow',
+  name = 'shadow',
   label = 'AhFack Rotations',
   combat = combat,
   resting = resting,

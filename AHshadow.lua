@@ -80,7 +80,7 @@ if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
     if not -target.debuff(SB.VampiricTouch) and -spell(SB.VampiricTouch) == 0 then
       return cast(SB.VampiricTouch, 'target')
    end
-   if -target.debuff(SB.VampiricTouch).remains < 6.3 and -spell(SB.VampiricTouch) == 0 then
+   if -target.debuff(SB.VampiricTouch).remains <= 6.3 and -spell(SB.VampiricTouch) == 0 then
     return cast(SB.VampiricTouch)
   end
 
@@ -90,10 +90,10 @@ if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
     if not -target.debuff(SB.ShadowWordPain) and -spell(SB.ShadowWordPain) == 0 then
       return cast(SB.ShadowWordPain, 'target')
    end
-   if -target.debuff(SB.ShadowWordPain).remains < 4.8 and -spell(SB.ShadowWordPain) == 0 then
+   if -target.debuff(SB.ShadowWordPain).remains <= 4.8 and -spell(SB.ShadowWordPain) == 0 then
     return cast(SB.ShadowWordPain, 'target')
   end
-  
+
     if cds == true and talent(6,2) and -spell(SB.MindbenderShadow) == 0 then
       return cast(SB.MindbenderShadow, 'target')
         else

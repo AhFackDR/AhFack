@@ -70,27 +70,27 @@ if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
        if multidot == true and -target.debuff(SB.ShadowWordPain) and modifier.shift and -spell(SB.ShadowWordPain) == 0 then
       return cast(SB.ShadowWordPain, 'mouseover')
     end
-    if -player.buff(SB.VoidForm) and player.spell(SB.VoidBolt).cooldown == 0 then 
+    if -buff(SB.VoidForm) and player.spell(SB.VoidBolt).cooldown == 0 then 
       return cast(SB.VoidBolt, 'target')
    end
-   if not -player.buff(SB.VoidForm) and player.spell(SB.VoidEruption).cooldown == 0 and player.power.insanity.actual > 90 then
+   if not -buff(SB.VoidForm) and player.spell(SB.VoidEruption).cooldown == 0 and player.power.insanity.actual > 90 then
     return cast(SB.VoidEruption, 'target')
   end
 
-    if not -target.debuff(SB.VampiricTouch) and -spell(SB.VampiricTouch) == 0 then
+    if not target.debuff(SB.VampiricTouch) and -spell(SB.VampiricTouch) == 0 then
       return cast(SB.VampiricTouch, 'target')
    end
-   if -target.debuff(SB.VampiricTouch).remains <= 6.3 and -spell(SB.VampiricTouch) == 0 then
+   if target.debuff(SB.VampiricTouch).remains <= 6.3 and -spell(SB.VampiricTouch) == 0 then
     return cast(SB.VampiricTouch)
   end
 
        if talent(3,3) and player.spell(SB.DarkVoid).cooldown == 0 and enemies.around(10) >= 2 and not -target.debuff(SB.ShadowWordPain) then
       return cast(SB.DarkVoid)
     end
-    if not -target.debuff(SB.ShadowWordPain) and -spell(SB.ShadowWordPain) == 0 then
+    if not target.debuff(SB.ShadowWordPain) and -spell(SB.ShadowWordPain) == 0 then
       return cast(SB.ShadowWordPain, 'target')
    end
-   if -target.debuff(SB.ShadowWordPain).remains <= 4.8 and -spell(SB.ShadowWordPain) == 0 then
+   if target.debuff(SB.ShadowWordPain).remains <= 4.8 and -spell(SB.ShadowWordPain) == 0 then
     return cast(SB.ShadowWordPain, 'target')
   end
 

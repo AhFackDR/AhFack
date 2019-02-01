@@ -191,13 +191,14 @@ local function interface()
       { type = 'text', text = 'Defensives' },
       { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', min = 10, max = 100, step = 5 },
       { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', min = 10, max = 100, step = 5 },
+      { key = 'healthstone', type = 'checkspin', text = 'Healthstone at HP%', desc = 'What % you will be using Healthstones at', default_spin = 35, min = 10, max = 100, step = 5 },
       { type = 'rule' },
 
       { type = 'text', text = 'Utility' },
       { key = 'massdispel', type = 'checkbox', text = 'Mass Dispel', desc = 'Use Mass Dispel on Cursor when Alt is held down.' },
       { key = 'fade', type = 'checkspin', text = 'Fade', desc = 'Use Fade when hit a certain amount of health.' },
       { key = 'autoleap', type = 'checkbox', text = 'Leap of Faith', desc = 'Use Leap of Faith macro when Ctrl is held down.' },
-    { key = 'autoaccept', type = 'checkbox', text = 'Auto Accept Queue', desc = 'Auto Accepts any Queue for BGs and DGs'},
+      { key = 'autoaccept', type = 'checkbox', text = 'Auto Accept Queue', desc = 'Auto Accepts any Queue for BGs and DGs'},
       
 
 

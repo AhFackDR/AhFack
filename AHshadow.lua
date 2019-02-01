@@ -1,6 +1,6 @@
 -- Shadow Priest 8.1 by AhFack - 12/2018
 -- Holding Shift while you have Multi Target active, you will dot any target you have underneath your mouse. This requires a "Cast on Cursor" macro.
--- Holding Control casts Leap of Faith, this is enabled in the interface. This requires a macro for leap of faithing focus. 
+-- Holding Control casts Shadow Crash, on your Cursor. 
 -- Holding Alt casts Mass Dispel on Cursor, this is enabled in the interface. This does not require a macro.
 
 -- Macros used:
@@ -105,9 +105,7 @@ if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
     if talent(5,2) and target.health <= 20 and player.spell(SB.ShadowWordDeath).cooldown == 0 then
       return cast(SB.ShadowWordDeath, 'target')
     end
-    if enemies.around(8) >= 3 and talent(5,3) and player.spell(SB.ShadowCrash).cooldown == 0 then
-      return cast(SB.ShadowCrash, 'target')
-    end
+
     if talent(6,3) and -player.buff(SB.VoidForm) and player.spell(SB.VoidTorrent).cooldown == 0 and player.power.insanity.actual < 30 then
       return cast(SB.VoidTorrent, 'target')
     end
@@ -241,7 +239,7 @@ local function interface()
 end
 dark_addon.rotation.register({
   spec = dark_addon.rotation.classes.priest.shadow,
-  name = 'shadow',
+  name = 'AHshadow',
   label = 'AhFack Rotations',
   combat = combat,
   resting = resting,

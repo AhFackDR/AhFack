@@ -10,6 +10,7 @@
 
 local dark_addon = dark_interface
 local SB = dark_addon.rotation.spellbooks.priest
+  local lftime = 0 -- Dungeon / LFG Queue Timers
 
 local function combat()
 local multidot = dark_addon.settings.fetch('dr_example_multidot')
@@ -33,9 +34,9 @@ local autoleap = dark_addon.settings.fetch('dr_example_leap')
       return cast(SB.Dispersion)
   end
 
-  -- if GetItemCooldown(5512) == 0 and player.health.percent < healthstonepercent and healthstone == true then
-  --  return RunMacro('Healthstone')
- -- end
+    if healthstone == true and player.health.percent < healthstonepercent and GetItemCount(5512) >= 1 and GetItemCooldown(5512) == 0 then
+     macro('/use Healthstone')
+  end
 
 
 -- Utility
@@ -46,9 +47,9 @@ end
 if modifier.alt and -spell(SB.MassDispel) == 0 and massdispel == true then
       return cast(SB.MassDispel, 'ground')
 end
--- if modifier.ctrl and -spell(LeapOfFaith) == 0 and autoleap == true then
- -- return RunMacro('Leap')
--- end
+if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
+ return cast(SB.ShadowCrash, 'ground')
+ end
 
 
 -- Rotation
@@ -67,7 +68,7 @@ end
    -- Damage
    
        if multidot == true and -target.debuff(SB.ShadowWordPain) and modifier.shift and -spell(SB.ShadowWordPain) == 0 then
-      return RunMacro('Pain')
+      return cast(SB.ShadowWordPain, 'mouseover')
     end
     if -player.buff(SB.VoidForm) and player.spell(SB.VoidBolt).cooldown == 0 then 
       return cast(SB.VoidBolt, 'target')
@@ -88,7 +89,8 @@ end
     if cds == true and talent(6,2) and -spell(SB.MindbenderShadow) == 0 then
       return cast(SB.MindbenderShadow, 'target')
         else
-          if player.spell(SB.ShadowFiend).cooldown == 0 and cds == true then
+          if player.spell(SB.ShadowFiend).cooldown == 0 
+      and cds == true then
          return cast(SB.ShadowFiend, 'target')
       end 
     end
@@ -195,7 +197,7 @@ local function interface()
       { key = 'massdispel', type = 'checkbox', text = 'Mass Dispel', desc = 'Use Mass Dispel on Cursor when Alt is held down.' },
       { key = 'fade', type = 'checkspin', text = 'Fade', desc = 'Use Fade when hit a certain amount of health.' },
       { key = 'autoleap', type = 'checkbox', text = 'Leap of Faith', desc = 'Use Leap of Faith macro when Ctrl is held down.' },
-	  { key = 'autoaccept', type = 'checkbox', text = 'Auto Accept Queue', desc = 'Auto Accepts any Queue for BGs and DGs'},
+    { key = 'autoaccept', type = 'checkbox', text = 'Auto Accept Queue', desc = 'Auto Accepts any Queue for BGs and DGs'},
       
 
 

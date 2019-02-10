@@ -92,5 +92,7 @@ dark_rotation.rotation.spellbooks.priest = {
   VoidBolt = 205448,
   VoidEruption = 228260,
   VoidForm = 194249,
-  VoidTorrent = 205065
+  VoidTorrent = 205065,
+  ThoughtHarvester = 288340,
+  WeakenedSoul = 6788,
 }

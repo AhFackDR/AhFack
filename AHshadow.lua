@@ -62,7 +62,7 @@ local nearest_target = enemies.match(function (unit)
   return unit.alive and unit.combat and unit.distance <= 8
 end)
 
-if (not target.exists or target.distance > 5) and nearest_target and nearest_target.name and autotarget == true then
+if (not target.exists or target.distance > 40) and nearest_target and nearest_target.name and autotarget == true then
   macro('/target ' .. nearest_target.name)
 end
 
@@ -153,7 +153,7 @@ end
     if not -player.buff(SB.VoidForm) and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 and player.power.insanity.actual < 30 then
       return cast(SB.DarkAscension, 'target')
     end
-    
+
     if -player.buff(SB.VoidForm) and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 and player.power.instanity.actual < 10 then
       return cast(SB.DarkAscension)
     end

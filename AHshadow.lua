@@ -170,7 +170,7 @@ if player.spell(SB.MindSear).cooldown == 0 and mindsear == true and -player.buff
   return cast(SB.MindSear, 'target')
 end
 
-if player.spell(SB.MindFlay).cooldown == 0 and enemies.around(10) <= 3 and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
+if player.spell(SB.MindFlay).cooldown == 0 and enemies.around(10) < 3 and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
   return cast(SB.MindFlay, 'target')
 end
 

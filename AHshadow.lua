@@ -16,19 +16,20 @@ local function combat()
 local multidot = dark_addon.settings.fetch('dr_example_multidot')
 local cds = dark_addon.settings.fetch('dr_example_cds')
 local vampiricembrace = dark_addon.settings.fetch('dr_example_vamp.check')
-local vamppercent = dark_addon.settings.fetch('dr_example_vamp.spin')
+local vamppercent = dark_addon.settings.fetch('dr_example_vamp.spin', 10)
 local dispersion = dark_addon.settings.fetch('dr_example_shadow.check')
-local disppercent = dark_addon.settings.fetch('dr_example_disp.spin')
-local intpercent = dark_addon.settings.fetch('dr_example_interrupt')
-local healthstonepercent = dark_addon.settings.fetch('dr_example_healthstone.spin')
+local disppercent = dark_addon.settings.fetch('dr_example_disp.spin', 10)
+local intpercent = dark_addon.settings.fetch('dr_example_interrupt', 30)
+local healthstonepercent = dark_addon.settings.fetch('dr_example_healthstone.spin', 35)
 local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 local massdispel = dark_addon.settings.fetch('dr_example_massdispel')
 local autoleap = dark_addon.settings.fetch('dr_example_leap')
 local autotarget = dark_addon.settings.fetch('dr_example_autotarget.check')
-local mindsear = dark_addon.settings.fetch('dr_example_mindsear.check')
-local mindsearmulti = dark_addon.settings.fetch('dr_exaple_mindsearmulti')
+local mindsear = dark_addon.settings.fetch('dr_example_mindsear')
+local mindsearmulti = dark_addon.settings.fetch('dr_exaple_mindsearmulti', 3)
 local pbs = dark_addon.settings.fetch('dr_example_pbs.check')
-local multodotting = dark_addon.settings.fetch('dr_example_multidotting.check')
+local multidotting = dark_addon.settings.fetch('dr_example_multidotting.check')
+local aoe = 3
 
 -- Defensives
 
@@ -124,7 +125,7 @@ end
     return cast(SB.VampiricTouch, 'target')
   end
 
-       if talent(3,3) and player.spell(SB.DarkVoid).cooldown == 0 and enemies.around(10) >= 2 and not -target.debuff(SB.ShadowWordPain) then
+       if talent(3,3) and player.spell(SB.DarkVoid).cooldown == 0 and enemies.around(10) >= aoe and not -target.debuff(SB.ShadowWordPain) then
       return cast(SB.DarkVoid, 'target')
     end
     if not target.debuff(SB.ShadowWordPain) and -spell(SB.ShadowWordPain) == 0 then
@@ -149,9 +150,14 @@ end
     if talent(6,3) and -player.buff(SB.VoidForm) and player.spell(SB.VoidTorrent).cooldown == 0 and player.power.insanity.actual < 30 then
       return cast(SB.VoidTorrent, 'target')
     end
-    if not -player.buff(SB.VoidForm) and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 then
+    if not -player.buff(SB.VoidForm) and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 and player.power.insanity.actual < 30 then
       return cast(SB.DarkAscension, 'target')
     end
+    
+    if -player.buff(SB.VoidForm) and talent(7,2) and player.spell(SB.DarkAscension).cooldown == 0 and player.power.instanity.actual < 10 then
+      return cast(SB.DarkAscension)
+    end
+
     if  player.spell(SB.MindBlast).cooldown == 0 then
       return cast(SB.MindBlast, 'target')
       else
@@ -162,7 +168,7 @@ end
 
 -- Fillers
 
-if enemies.around(10) >= 3 and -spell(SB.MindSear) == 0 and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
+if enemies.around(10) >= aoe and -spell(SB.MindSear) == 0 and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
   return cast(SB.MindSear, 'target')
 end
 
@@ -170,7 +176,7 @@ if player.spell(SB.MindSear).cooldown == 0 and mindsear == true and -player.buff
   return cast(SB.MindSear, 'target')
 end
 
-if player.spell(SB.MindFlay).cooldown == 0 and enemies.around(10) < 3 and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
+if player.spell(SB.MindFlay).cooldown == 0 and enemies.around(10) < aoe and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
   return cast(SB.MindFlay, 'target')
 end
 

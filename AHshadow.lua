@@ -24,6 +24,11 @@ local healthstonepercent = dark_addon.settings.fetch('dr_example_healthstone.spi
 local healthstone = dark_addon.settings.fetch('dr_example_healthstone.check')
 local massdispel = dark_addon.settings.fetch('dr_example_massdispel')
 local autoleap = dark_addon.settings.fetch('dr_example_leap')
+local autotarget = dark_addon.settings.fetch('dr_example_autotarget.check')
+local mindsear = dark_addon.settings.fetch('dr_example_mindsear.check')
+local mindsearmulti = dark_addon.settings.fetch('dr_exaple_mindsearmulti')
+local pbs = dark_addon.settings.fetch('dr_example_pbs.check')
+local multodotting = dark_addon.settings.fetch('dr_example_multidotting.check')
 
 -- Defensives
 
@@ -50,6 +55,41 @@ end
 if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
  return cast(SB.ShadowCrash, 'ground')
  end
+
+ -- Auto Target
+local nearest_target = enemies.match(function (unit)
+  return unit.alive and unit.combat and unit.distance <= 8
+end)
+
+if (not target.exists or target.distance > 5) and nearest_target and nearest_target.name and autotarget == true then
+  macro('/target ' .. nearest_target.name)
+end
+
+-- Auto Multi-DoTSWP
+local enemies_around = enemies.around(8)
+local enemy_for_mark = enemies.match(function (unit)
+  return unit.alive and unit.combat and unit.distance <= 40 and unit.debuff(SB.ShadowWordPain).remains < 2
+end)
+
+if target.debuff(SB.ShadowWordPain).remains > 10 and enemy_for_mark and enemy_for_mark.name and multidotting == true then
+  for i=1,enemies_around do
+    macro('/target ' .. enemy_for_mark.name)
+    if target.guid == enemy_for_mark.guid then break end
+  end
+end
+
+-- Auto Multi-DoTVT
+local enemies_around = enemies.around(8)
+local enemy_for_mark = enemies.match(function (unit)
+  return unit.alive and unit.combat and unit.distance <= 40 and unit.debuff(SB.VampiricTouch).remains < 2
+end)
+
+if target.debuff(SB.VampiricTouch).remains > 10 and enemy_for_mark and enemy_for_mark.name and multidotting == true then
+  for i=1,enemies_around do
+    macro('/target ' .. enemy_for_mark.name)
+    if target.guid == enemy_for_mark.guid then break end
+  end
+end
 
 
 -- Rotation
@@ -81,11 +121,11 @@ if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
       return cast(SB.VampiricTouch, 'target')
    end
    if target.debuff(SB.VampiricTouch).remains <= 6.3 and -spell(SB.VampiricTouch) == 0 then
-    return cast(SB.VampiricTouch)
+    return cast(SB.VampiricTouch, 'target')
   end
 
        if talent(3,3) and player.spell(SB.DarkVoid).cooldown == 0 and enemies.around(10) >= 2 and not -target.debuff(SB.ShadowWordPain) then
-      return cast(SB.DarkVoid)
+      return cast(SB.DarkVoid, 'target')
     end
     if not target.debuff(SB.ShadowWordPain) and -spell(SB.ShadowWordPain) == 0 then
       return cast(SB.ShadowWordPain, 'target')
@@ -122,13 +162,25 @@ if modifier.lcontrol and -spell(SB.ShadowCrash) == 0 then
 
 -- Fillers
 
-    if enemies.around(10) >= 2 and -spell(SB.MindSear) == 0 then
-      return cast(SB.MindSear, 'target')
-    end
+if enemies.around(10) >= 3 and -spell(SB.MindSear) == 0 and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
+  return cast(SB.MindSear, 'target')
+end
 
-    if player.spell(SB.MindFlay).cooldown == 0 then
-      return cast(SB.MindFlay, 'target')
-    end
+if player.spell(SB.MindSear).cooldown == 0 and mindsear == true and -player.buff(SB.ThoughtHarvester) then
+  return cast(SB.MindSear, 'target')
+end
+
+if player.spell(SB.MindFlay).cooldown == 0 and enemies.around(10) <= 3 and mindsear == true and not -player.buff(SB.ThoughtHarvester) then
+  return cast(SB.MindFlay, 'target')
+end
+
+if player.spell(SB.MindSear).cooldown == 0 and mindsear == nil and -player.buff(SB.ThoughtHarvester) then
+  return cast(SB.MindSear, 'target')
+end
+
+if player.spell(SB.MindFlay).cooldown == 0 and mindsear == nil and not -player.buff(SB.ThoughtHarvester) then
+  return cast(SB.MindFlay, 'target')
+end
    
 end
 end
@@ -140,6 +192,9 @@ if not -player.buff(SB.ShadowForm) and player.spell(SB.ShadowForm).cooldown == 0
 if not -player.buff(SB.PowerWordFortitude) and -spell(SB.PowerWordFortitude, 'player') == 0 then
    return cast(SB.PowerWordFortitude, 'player')
  end
+ --if not -player.debuff(SB.WeakenedSoul) and -spell(SB.PowerWordShield, 'player') == 0 and pbs == true then
+ --   return cast(SB.PowerWordShield, 'player')
+--end
 
 
 -- Auto Join
@@ -191,12 +246,16 @@ local function interface()
       { type = 'text', text = 'Class Specific' },
       { key = 'multidot', type = 'checkbox', text = 'Multi Dotting', desc = 'Hold down Shift to use your Macro to Mouseover DoT' },
       { key = 'cds', type = 'checkbox', text = 'Cooldowns', desc = 'Use Mindbender / Shadowfiend in Combat' },
-      { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', min = 10, max = 100, step = 5 },
+      { key = 'interrupt', type = 'spinner', text = 'Interupt %', desc = 'What % you will be interupting at', default_spin = 30, min = 10, max = 100, step = 5 },
+      { key = 'autotarget', type = 'checkbox', text = 'Auto-Target', desc = 'Auto Targets Nearest Target'},
+      { key = 'multidotting', type = 'checkbox', text = 'Auto DoT', desc = 'Auto DoTs Targets in Area close to Target'},
+      { key = 'mindsear', type = 'checkbox', text = 'Use Mind Sear', desc = 'Mind Sear on AoE / Proccs.'},
+      --{ key = 'mindsearmulti', type = 'spinner', text = 'Mind Sear Targets', desc = 'Auto MindSear when X in Range', default_spin = 3, min = 1, max = 20, step = 1 },
       { type = 'rule' },   
 
       { type = 'text', text = 'Defensives' },
-      { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', min = 10, max = 100, step = 5 },
-      { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', min = 10, max = 100, step = 5 },
+      { key = 'dispersion', type = 'checkspin', text = 'Dispersion at HP%', desc = 'What % you will be using Dispersion at', default_spin = 10, min = 10, max = 100, step = 5 },
+      { key = 'vampiricembrace', type = 'checkspin', text = 'Vampiric Embrace HP%', desc = 'What % you will be using Vampiric Emb at', default_spin = 10, min = 10, max = 100, step = 5 },
       { key = 'healthstone', type = 'checkspin', text = 'Healthstone at HP%', desc = 'What % you will be using Healthstones at', default_spin = 35, min = 10, max = 100, step = 5 },
       { type = 'rule' },
 
@@ -205,7 +264,7 @@ local function interface()
       { key = 'fade', type = 'checkspin', text = 'Fade', desc = 'Use Fade when hit a certain amount of health.' },
       { key = 'autoleap', type = 'checkbox', text = 'Leap of Faith', desc = 'Use Leap of Faith macro when Ctrl is held down.' },
       { key = 'autoaccept', type = 'checkbox', text = 'Auto Accept Queue', desc = 'Auto Accepts any Queue for BGs and DGs'},
-      
+      { key = 'pbs', type = 'checkbox', text = 'Auto-Shield for Movementspeed', desc = 'Auto Power Word: Shield for Movementspeed out of combat.'},
 
 
 
